@@ -1,0 +1,31 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:vm="clr-namespace:WpfPaint.ViewModels"
+    xmlns:v="clr-namespace:WpfPaint.Views">
+
+    <DataTemplate DataType="{x:Type vm:MainViewModel}">
+        <v:MainView/>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type vm:HeaderViewModel}">
+        <v:HeaderView/>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type vm:ObjectsViewModel}">
+        <v:ObjectsView/>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type vm:BoardViewModel}">
+        <v:BoardView/>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type vm:PropertiesViewModel}">
+        <v:PropertiesView/>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type vm:FooterViewModel}">
+        <v:FooterView/>
+    </DataTemplate>
+
+</ResourceDictionary>

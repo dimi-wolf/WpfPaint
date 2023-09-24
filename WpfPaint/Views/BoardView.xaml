@@ -1,0 +1,55 @@
+﻿<UserControl
+    x:Class="WpfPaint.Views.BoardView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:m="clr-namespace:WpfPaint.Model"
+    xmlns:p="clr-namespace:WpfPaint.Views.Primitives"
+    mc:Ignorable="d" 
+    d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <DataTemplate DataType="{x:Type m:Rectangle}">
+            <p:RectangleView/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type m:Circle}">
+            <p:CircleView/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type m:PolyLine}">
+            <p:PolyLineView/>
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <Grid Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Label
+            Content="Leinwand"
+            Background="#256DB6"
+            Foreground="#f0f0f0"
+            BorderThickness="1,0,0,0"
+            BorderBrush="#f0f0f0"
+            Grid.Row="0"/>
+
+        <ItemsControl ItemsSource="{Binding Objects}" Focusable="False" Grid.Row="1">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Canvas IsItemsHost="True" ClipToBounds="True"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+
+            <ItemsControl.ItemContainerStyle>
+                <Style TargetType="ContentPresenter">
+                    <Setter Property="Canvas.Left" Value="{Binding Position.X}" />
+                    <Setter Property="Canvas.Top" Value="{Binding Position.Y}" />
+                </Style>
+            </ItemsControl.ItemContainerStyle>
+        </ItemsControl>
+    </Grid>
+</UserControl>

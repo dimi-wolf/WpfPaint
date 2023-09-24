@@ -1,0 +1,63 @@
+﻿<UserControl
+    x:Class="WpfPaint.Views.ObjectsView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:m="clr-namespace:WpfPaint.Model"
+    mc:Ignorable="d" 
+    d:DesignHeight="450" d:DesignWidth="260">
+
+    <UserControl.Resources>
+        <DataTemplate DataType="{x:Type m:Rectangle}">
+            <Label Content="{Binding Name}"/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type m:Circle}">
+            <Label Content="{Binding Name}"/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type m:PolyLine}">
+            <Label Content="{Binding Name}"/>
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Label
+            Content="Objekte"
+            Background="#256DB6"
+            Foreground="#f0f0f0"
+            Grid.Row="0"/>
+
+        <Grid Background="#F4F5F9" Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Button Grid.Column="0" Content="Rechteck" Command="{Binding RectangleCommand}" Background="Transparent" BorderThickness="0,1"/>
+            <Button Grid.Column="1" Content="Kreis" Command="{Binding CircleCommand}" Background="Transparent" BorderThickness="1,1,0,1"/>
+            <Button Grid.Column="2" Content="Pfad" Command="{Binding PolyLineCommand}" Background="Transparent"/>
+        </Grid>
+
+        <ListBox
+            ItemsSource="{Binding Objects}"
+            SelectedItem="{Binding SelectedObject}"
+            Focusable="False"
+            Background="#F4F5F9"
+            BorderThickness="0"
+            Grid.Row="2">
+
+            <ListBox.InputBindings>
+                <KeyBinding Key="Delete" Command="{Binding RemoveSelectedObjectCommand}"/>
+            </ListBox.InputBindings>
+        </ListBox>
+    </Grid>
+</UserControl>

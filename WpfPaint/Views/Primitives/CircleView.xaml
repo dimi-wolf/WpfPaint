@@ -1,0 +1,38 @@
+﻿<UserControl
+    x:Class="WpfPaint.Views.Primitives.CircleView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    mc:Ignorable="d" 
+    d:DesignHeight="200" d:DesignWidth="200">
+
+    <Grid>
+        <Ellipse
+            Width="{Binding Radius}"
+            Height="{Binding Radius}"
+            Fill="Transparent"
+            Stroke="Orange"
+            StrokeThickness="3"
+            IsHitTestVisible="{Binding ShowControls}"/>
+
+        <Thumb
+            Template="{StaticResource TranslateThumb}"
+            HorizontalAlignment="Center"
+            VerticalContentAlignment="Center"
+            DragDelta="OnPositionDragDelta"
+            Visibility="{Binding ShowControls, Converter={StaticResource booleanToVisibilityConverter}}"/>
+
+        <Thumb
+            Template="{StaticResource ResizeThumb}"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center"
+            DragDelta="OnRadiusDragDelta"
+            Visibility="{Binding ShowControls, Converter={StaticResource booleanToVisibilityConverter}}">
+            <Thumb.RenderTransform>
+                <TranslateTransform X="3"/>
+            </Thumb.RenderTransform>
+        </Thumb>
+
+    </Grid>
+</UserControl>

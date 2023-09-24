@@ -1,0 +1,36 @@
+﻿<UserControl
+    x:Class="WpfPaint.Views.PropertyViews.RectanglePropertyView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:local="clr-namespace:WpfPaint.Views.PropertyViews"
+    mc:Ignorable="d" 
+    d:DesignWidth="400">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Label Content="Name" Grid.Column="0" Grid.Row="0" />
+        <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="0" Margin="5,2.5"/>
+
+        <Label Content="Position" Grid.Column="0" Grid.Row="1" />
+        <ContentControl Content="{Binding Position}" Focusable="False" Grid.Column="1" Grid.Row="1" Margin="5,2.5"/>
+
+        <Label Content="Breite" Grid.Column="0" Grid.Row="2" />
+        <TextBox Text="{Binding Width, UpdateSourceTrigger=PropertyChanged, StringFormat=N1}" Grid.Column="1" Grid.Row="2" Margin="5,2.5"/>
+
+        <Label Content="Höhe" Grid.Column="0" Grid.Row="3" />
+        <TextBox Text="{Binding Height, UpdateSourceTrigger=PropertyChanged, StringFormat=N1}" Grid.Column="1" Grid.Row="3" Margin="5,2.5"/>
+    </Grid>
+</UserControl>
