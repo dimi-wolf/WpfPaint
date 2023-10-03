@@ -8,13 +8,15 @@ namespace WpfPaint.MVVM
     /// <seealso cref="WpfPaint.MVVM.PropertyChangedBase" />
     public abstract class ViewModelBase : PropertyChangedBase
     {
+        private bool _isLoaded;
+
         /// <summary>
         /// Gets a value indicating whether the view model is loaded.
         /// </summary>
         public bool IsLoaded
         {
-            get => GetValue<bool>();
-            protected set => SetValue(value);
+            get => _isLoaded;
+            protected set => SetValue(ref _isLoaded, value);
         }
 
         /// <summary>

@@ -7,20 +7,25 @@
     mc:Ignorable="d" 
     d:DesignHeight="100" d:DesignWidth="200">
 
-    <Grid>
+    <Grid Visibility="{Binding IsVisible, Converter={StaticResource booleanToVisibilityConverter}}">
         <Rectangle
             x:Name="rect"
             Width="{Binding Width}"
             Height="{Binding Height}"
             Fill="Transparent"
-            Stroke="CornflowerBlue" StrokeThickness="3"
-            IsHitTestVisible="{Binding ShowControls}"/>
+            Stroke="CornflowerBlue"
+            StrokeThickness="3"
+            MouseUp="OnRectangleMouseUp"/>
 
         <Thumb Visibility="{Binding ShowControls, Converter={StaticResource booleanToVisibilityConverter}}" Template="{StaticResource TranslateThumb}" HorizontalAlignment="Center" VerticalContentAlignment="Center" DragDelta="OnPositionDragDelta"/>
-        <Thumb Visibility="{Binding ShowControls, Converter={StaticResource booleanToVisibilityConverter}}" Template="{StaticResource ResizeThumb}" HorizontalAlignment="Left" VerticalAlignment="Top" DragDelta="OnLeftTopDragDelta" Margin="-4"/>
-        <Thumb Visibility="{Binding ShowControls, Converter={StaticResource booleanToVisibilityConverter}}" Template="{StaticResource ResizeThumb}" HorizontalAlignment="Right" VerticalAlignment="Top" DragDelta="OnRightTopDragDelta" Margin="-4"/>
-        <Thumb Visibility="{Binding ShowControls, Converter={StaticResource booleanToVisibilityConverter}}" Template="{StaticResource ResizeThumb}" HorizontalAlignment="Left" VerticalAlignment="Bottom" DragDelta="OnLeftBottomDragDelta" Margin="-4"/>
-        <Thumb Visibility="{Binding ShowControls, Converter={StaticResource booleanToVisibilityConverter}}" Template="{StaticResource ResizeThumb}" HorizontalAlignment="Right" VerticalAlignment="Bottom"  DragDelta="OnRightBottomDragDelta" Margin="-4"/>
+        <Thumb Visibility="{Binding ShowControls, Converter={StaticResource booleanToVisibilityConverter}}" Template="{StaticResource ResizeTopLeftThumb}" HorizontalAlignment="Left" VerticalAlignment="Top" DragDelta="OnLeftTopDragDelta" Margin="-12,-12,0,0"/>
+        <Thumb Visibility="{Binding ShowControls, Converter={StaticResource booleanToVisibilityConverter}}" Template="{StaticResource ResizeUpThumb}" HorizontalAlignment="Center" VerticalAlignment="Top" DragDelta="OnTopDragDelta" Margin="0,-16,0,0"/>
+        <Thumb Visibility="{Binding ShowControls, Converter={StaticResource booleanToVisibilityConverter}}" Template="{StaticResource ResizeTopRightThumb}" HorizontalAlignment="Right" VerticalAlignment="Top" DragDelta="OnRightTopDragDelta" Margin="0,-12,-12,0"/>
+        <Thumb Visibility="{Binding ShowControls, Converter={StaticResource booleanToVisibilityConverter}}" Template="{StaticResource ResizeRightThumb}" HorizontalAlignment="Right" VerticalAlignment="Center" DragDelta="OnRightDragDelta" Margin="0,0,-16,0"/>
+        <Thumb Visibility="{Binding ShowControls, Converter={StaticResource booleanToVisibilityConverter}}" Template="{StaticResource ResizeBottomRightThumb}" HorizontalAlignment="Right" VerticalAlignment="Bottom"  DragDelta="OnRightBottomDragDelta" Margin="0,0,-12,-12"/>
+        <Thumb Visibility="{Binding ShowControls, Converter={StaticResource booleanToVisibilityConverter}}" Template="{StaticResource ResizeDownThumb}" HorizontalAlignment="Center" VerticalAlignment="Bottom"  DragDelta="OnBottomDragDelta" Margin="0,0,0,-16"/>
+        <Thumb Visibility="{Binding ShowControls, Converter={StaticResource booleanToVisibilityConverter}}" Template="{StaticResource ResizeBottomLeftThumb}" HorizontalAlignment="Left" VerticalAlignment="Bottom" DragDelta="OnLeftBottomDragDelta" Margin="-12,0,0,-12"/>
+        <Thumb Visibility="{Binding ShowControls, Converter={StaticResource booleanToVisibilityConverter}}" Template="{StaticResource ResizeLeftThumb}" HorizontalAlignment="Left" VerticalAlignment="Center" DragDelta="OnLeftDragDelta" Margin="-16,0,0,0"/>
 
     </Grid>
 </UserControl>

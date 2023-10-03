@@ -1,4 +1,7 @@
-﻿using WpfPaint.MVVM;
+﻿using System.Threading.Tasks;
+using WpfPaint.Messages;
+using WpfPaint.Messaging;
+using WpfPaint.MVVM;
 
 namespace WpfPaint.Model
 {
@@ -8,6 +11,21 @@ namespace WpfPaint.Model
     /// <seealso cref="WpfPaint.MVVM.PropertyChangedBase" />
     public abstract class PrimitiveBase : PropertyChangedBase
     {
+        private readonly IEventAggregator _eventAggregator;
+        private string _name = string.Empty;
+        private bool _showControls;
+        private bool _isVisible;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PrimitiveBase"/> class.
+        /// </summary>
+        /// <param name="eventAggregator">The event aggregator.</param>
+        protected PrimitiveBase(IEventAggregator eventAggregator)
+        {
+            _eventAggregator = eventAggregator;
+            _isVisible = true;
+        }
+
         /// <summary>
         /// Gets or sets the name.
         /// </summary>
@@ -16,8 +34,8 @@ namespace WpfPaint.Model
         /// </value>
         public string Name
         {
-            get => GetValue<string>() ?? string.Empty;
-            set => SetValue(value);
+            get => _name;
+            set => SetValue(ref _name, value);
         }
 
         /// <summary>
@@ -28,8 +46,29 @@ namespace WpfPaint.Model
         /// </value>
         public bool ShowControls
         {
-            get => GetValue<bool>();
-            set => SetValue(value);
+            get => _showControls;
+            set => SetValue(ref _showControls, value);
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether this instance is visible.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if this instance is visible; otherwise, <c>false</c>.
+        /// </value>
+        public bool IsVisible
+        {
+            get => _isVisible;
+            set => SetValue(ref _isVisible, value);
+        }
+
+        /// <summary>
+        /// Sets this instance as the selected object.
+        /// </summary>
+        public async Task SetAsSelectedAsync()
+        {
+            await _eventAggregator.SendMessageAsync(new SetSelectedObjectMessage(this))
+                .ConfigureAwait(true);
         }
     }
 }

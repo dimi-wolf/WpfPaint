@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -8,10 +9,11 @@ namespace WpfPaint.Messaging
     /// <summary>
     /// The event aggregator to communicate between objects.
     /// </summary>
-    public class EventAggregator : IEventAggregator
+    public class EventAggregator : IEventAggregator, IDisposable
     {
         private readonly List<IHandle> _handlers = new();
         private readonly SemaphoreSlim _semaphore = new(1, 1);
+        private bool disposedValue;
 
         /// <summary>
         /// Subscribes the given handler.
@@ -19,7 +21,8 @@ namespace WpfPaint.Messaging
         /// <param name="handler">The handler.</param>
         public async Task SubscribeAsync(IHandle handler)
         {
-            await _semaphore.WaitAsync();
+            await _semaphore.WaitAsync()
+                .ConfigureAwait(false);
 
             try
             {
@@ -37,7 +40,8 @@ namespace WpfPaint.Messaging
         /// <param name="handler">The handler.</param>
         public async Task UnsubscribeAsync(IHandle handler)
         {
-            await _semaphore.WaitAsync();
+            await _semaphore.WaitAsync()
+                .ConfigureAwait(false);
 
             try
             {
@@ -58,7 +62,8 @@ namespace WpfPaint.Messaging
         {
             List<IHandle<TMessage>> relevantHandlers;
 
-            await _semaphore.WaitAsync();
+            await _semaphore.WaitAsync()
+                .ConfigureAwait(true);
 
             try
             {
@@ -73,8 +78,36 @@ namespace WpfPaint.Messaging
 
             foreach (IHandle<TMessage> handler in relevantHandlers)
             {
-                await handler.HandleMessageAsync(message);
+                await handler.HandleMessageAsync(message)
+                    .ConfigureAwait(true);
             }
+        }
+
+        /// <summary>
+        /// Releases unmanaged and - optionally - managed resources.
+        /// </summary>
+        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    _semaphore.Dispose();
+                }
+
+                disposedValue = true;
+            }
+        }
+
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        public void Dispose()
+        {
+            // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
         }
     }
 }

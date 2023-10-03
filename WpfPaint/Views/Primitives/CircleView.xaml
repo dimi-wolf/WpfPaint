@@ -7,14 +7,14 @@
     mc:Ignorable="d" 
     d:DesignHeight="200" d:DesignWidth="200">
 
-    <Grid>
+    <Grid Visibility="{Binding IsVisible, Converter={StaticResource booleanToVisibilityConverter}}">
         <Ellipse
             Width="{Binding Radius}"
             Height="{Binding Radius}"
             Fill="Transparent"
             Stroke="Orange"
             StrokeThickness="3"
-            IsHitTestVisible="{Binding ShowControls}"/>
+            MouseUp="OnCircleMouseUp"/>
 
         <Thumb
             Template="{StaticResource TranslateThumb}"
@@ -24,13 +24,13 @@
             Visibility="{Binding ShowControls, Converter={StaticResource booleanToVisibilityConverter}}"/>
 
         <Thumb
-            Template="{StaticResource ResizeThumb}"
+            Template="{StaticResource ResizeRightThumb}"
             HorizontalAlignment="Right"
             VerticalAlignment="Center"
             DragDelta="OnRadiusDragDelta"
             Visibility="{Binding ShowControls, Converter={StaticResource booleanToVisibilityConverter}}">
             <Thumb.RenderTransform>
-                <TranslateTransform X="3"/>
+                <TranslateTransform X="16"/>
             </Thumb.RenderTransform>
         </Thumb>
 

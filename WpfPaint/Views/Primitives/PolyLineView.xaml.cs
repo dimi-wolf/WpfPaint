@@ -26,6 +26,15 @@ namespace WpfPaint.Views.Primitives
                 polyline.UpdatePointsCollection();
             }
         }
+
+        private async void OnPolylineMouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if (DataContext is PolyLine polyLine)
+            {
+                await polyLine.SetAsSelectedAsync()
+                    .ConfigureAwait(false);
+            }
+        }
     }
 }
 

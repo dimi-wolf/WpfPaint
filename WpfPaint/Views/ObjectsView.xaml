@@ -4,28 +4,44 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:mvvm="clr-namespace:WpfPaint.MVVM"
     xmlns:m="clr-namespace:WpfPaint.Model"
+    xmlns:ov="clr-namespace:WpfPaint.Views.ObjectViews"
     mc:Ignorable="d" 
     d:DesignHeight="450" d:DesignWidth="260">
 
     <UserControl.Resources>
         <DataTemplate DataType="{x:Type m:Rectangle}">
-            <Label Content="{Binding Name}"/>
+            <DockPanel>
+                <Image DockPanel.Dock="Left" Source="{StaticResource rectangle-outline}" Width="20"/>
+                <ov:TreeItemView/>
+            </DockPanel>
         </DataTemplate>
 
         <DataTemplate DataType="{x:Type m:Circle}">
-            <Label Content="{Binding Name}"/>
+            <DockPanel>
+                <Image DockPanel.Dock="Left" Source="{StaticResource circle-outline}" Width="20"/>
+                <ov:TreeItemView/>
+            </DockPanel>
         </DataTemplate>
 
         <DataTemplate DataType="{x:Type m:PolyLine}">
-            <Label Content="{Binding Name}"/>
+            <DockPanel>
+                <Image DockPanel.Dock="Left" Source="{StaticResource vector-polyline}" Width="20"/>
+                <ov:TreeItemView/>
+            </DockPanel>
         </DataTemplate>
     </UserControl.Resources>
+
+    <b:Interaction.Behaviors>
+        <mvvm:LifecycleBehavior/>
+    </b:Interaction.Behaviors>
 
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="25"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
@@ -53,7 +69,8 @@
             Focusable="False"
             Background="#F4F5F9"
             BorderThickness="0"
-            Grid.Row="2">
+            Grid.Row="2"
+            HorizontalContentAlignment="Stretch">
 
             <ListBox.InputBindings>
                 <KeyBinding Key="Delete" Command="{Binding RemoveSelectedObjectCommand}"/>

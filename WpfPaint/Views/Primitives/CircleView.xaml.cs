@@ -29,9 +29,21 @@ namespace WpfPaint.Views.Primitives
         {
             if (DataContext is Circle rect)
             {
-                rect.Position.X -= e.HorizontalChange / 2d;
-                rect.Position.Y -= e.HorizontalChange / 2d;
                 rect.Radius += e.HorizontalChange;
+                if (rect.Radius > 5)
+                {
+                    rect.Position.X -= e.HorizontalChange / 2d;
+                    rect.Position.Y -= e.HorizontalChange / 2d;
+                }
+            }
+        }
+
+        private async void OnCircleMouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if (DataContext is Circle circle)
+            {
+                await circle.SetAsSelectedAsync()
+                    .ConfigureAwait(false);
             }
         }
     }

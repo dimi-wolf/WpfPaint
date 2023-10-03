@@ -1,15 +1,15 @@
 ﻿namespace WpfPaint.Messages
 {
     /// <summary>
-    /// A message which is sent when the selected object has changed.
+    /// A message which is sent when the selected object has to change.
     /// </summary>
-    public class SelectedObjectChangedMessage
+    public class SetSelectedObjectMessage
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="SelectedObjectChangedMessage"/> class.
+        /// Initializes a new instance of the <see cref="SetSelectedObjectMessage"/> class.
         /// </summary>
         /// <param name="selectedObject">The selected object.</param>
-        public SelectedObjectChangedMessage(object? selectedObject)
+        public SetSelectedObjectMessage(object? selectedObject)
         {
             SelectedObject = selectedObject;
         }

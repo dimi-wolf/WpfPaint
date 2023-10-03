@@ -6,8 +6,10 @@ namespace WpfPaint.ViewModels
     /// The view model for the header.
     /// </summary>
     /// <seealso cref="WpfPaint.MVVM.ViewModelBase" />
-    internal class HeaderViewModel : ViewModelBase
+    public class HeaderViewModel : ViewModelBase
     {
+        private string _title = string.Empty;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="HeaderViewModel"/> class.
         /// </summary>
@@ -24,8 +26,8 @@ namespace WpfPaint.ViewModels
         /// </value>
         public string Title
         {
-            get => GetValue<string>() ?? string.Empty;
-            set => SetValue(value);
+            get => _title;
+            set => SetValue(ref _title, value);
         }
     }
 }

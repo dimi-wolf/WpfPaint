@@ -12,7 +12,7 @@ namespace WpfPaint.MVVM
     {
         private bool _disposedValue;
         private readonly ServiceCollection _serviceCollection;
-        private readonly ServiceProvider _serviceProvider;
+        private ServiceProvider? _serviceProvider;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BootstrapperBase"/> class.
@@ -20,8 +20,6 @@ namespace WpfPaint.MVVM
         protected BootstrapperBase()
         {
             _serviceCollection = new ServiceCollection();
-            ConfigureServices(_serviceCollection);
-            _serviceProvider = _serviceCollection.BuildServiceProvider();
 
             if (Application.Current != null)
             {
@@ -51,7 +49,7 @@ namespace WpfPaint.MVVM
                 if (disposing)
                 {
                     _serviceCollection.Clear();
-                    _serviceProvider.Dispose();
+                    _serviceProvider?.Dispose();
 
                     if (Application.Current != null)
                     {
@@ -84,7 +82,7 @@ namespace WpfPaint.MVVM
         /// Called when the application shuts down.
         /// </summary>
         /// <param name="serviceProvider">The service provider.</param>
-        protected virtual void OnExit(IServiceProvider serviceProvider)
+        protected virtual void OnExit(IServiceProvider? serviceProvider)
         {
         }
 
@@ -95,6 +93,8 @@ namespace WpfPaint.MVVM
         /// <param name="e">The <see cref="StartupEventArgs"/> instance containing the event data.</param>
         private void OnApplicationStartup(object sender, StartupEventArgs e)
         {
+            ConfigureServices(_serviceCollection);
+            _serviceProvider = _serviceCollection.BuildServiceProvider();
             OnStartup(_serviceProvider);
         }
 

@@ -6,7 +6,7 @@ namespace WpfPaint.ViewModels
     /// The main view model of the application.
     /// </summary>
     /// <seealso cref="WpfPaint.MVVM.ViewModelBase" />
-    internal class MainViewModel : ViewModelBase
+    public class MainViewModel : ViewModelBase
     {
         private readonly HeaderViewModel _headerViewModel;
         private readonly ObjectsViewModel _objectsViewModel;

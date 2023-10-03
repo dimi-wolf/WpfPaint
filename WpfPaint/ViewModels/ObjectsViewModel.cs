@@ -13,10 +13,11 @@ namespace WpfPaint.ViewModels
     /// Manages the objects which are drawn on the board.
     /// </summary>
     /// <seealso cref="WpfPaint.MVVM.ViewModelBase" />
-    internal class ObjectsViewModel : ViewModelBase
+    public class ObjectsViewModel : ViewModelBase, IHandle<SetSelectedObjectMessage>
     {
         private readonly IEventAggregator _eventAggregator;
-        private readonly ObjectsCollection _objectsCollection;
+        private readonly ObjectsStore _objectsCollection;
+        private object? _selectedObject;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ObjectsViewModel"/> class.
@@ -25,15 +26,15 @@ namespace WpfPaint.ViewModels
         /// <param name="objectsCollection">The objects collection.</param>
         public ObjectsViewModel(
             IEventAggregator eventAggregator,
-            ObjectsCollection objectsCollection)
+            ObjectsStore objectsCollection)
         {
             _eventAggregator = eventAggregator;
             _objectsCollection = objectsCollection;
 
-            RectangleCommand = new(param => AddObjectAsync(ObjectTypes.Rectangle));
-            CircleCommand = new(param => AddObjectAsync(ObjectTypes.Circle));
-            PolyLineCommand = new(param => AddObjectAsync(ObjectTypes.PolyLine));
-            RemoveSelectedObjectCommand = new RelayCommand(param => RemoveSelectedObject(), param => CanRemoveSelectedObject);
+            RectangleCommand = new(() => AddObject(ObjectTypes.Rectangle));
+            CircleCommand = new(() => AddObject(ObjectTypes.Circle));
+            PolyLineCommand = new(() => AddObject(ObjectTypes.PolyLine));
+            RemoveSelectedObjectCommand = new(RemoveSelectedObject, () => CanRemoveSelectedObject);
         }
 
         /// <summary>
@@ -46,11 +47,11 @@ namespace WpfPaint.ViewModels
         /// </summary>
         public object? SelectedObject
         {
-            get => GetValue<object>();
+            get => _selectedObject;
             set
             {
                 OnSelectedObjectChanging(value);
-                SetValue(value);
+                SetValue(ref _selectedObject, value);
                 _ = OnSelectedObjectChanged();
             }
         }
@@ -95,7 +96,7 @@ namespace WpfPaint.ViewModels
         /// </value>
         public bool CanRemoveSelectedObject => SelectedObject != null;
 
-        private void AddObjectAsync(ObjectTypes objectType)
+        private void AddObject(ObjectTypes objectType)
         {
             _objectsCollection.AddNewObject(objectType);
             SelectedObject = Objects.Last();
@@ -116,7 +117,8 @@ namespace WpfPaint.ViewModels
 
         private async Task OnSelectedObjectChanged()
         {
-            await _eventAggregator.SendMessageAsync(new SelectedObjectChangedMessage(SelectedObject));
+            await _eventAggregator.SendMessageAsync(new SelectedObjectChangedMessage(SelectedObject))
+                .ConfigureAwait(true);
         }
 
         private void RemoveSelectedObject()
@@ -126,6 +128,28 @@ namespace WpfPaint.ViewModels
                 Objects.Remove(SelectedObject);
                 SelectedObject = Objects.FirstOrDefault();
             }
+        }
+
+        public Task HandleMessageAsync(SetSelectedObjectMessage message)
+        {
+            if (message != null)
+            {
+                SelectedObject = message.SelectedObject;
+            }
+
+            return Task.CompletedTask;
+        }
+
+        protected internal override async Task OnLoadingAsync()
+        {
+            await _eventAggregator.SubscribeAsync(this).ConfigureAwait(true);
+            await base.OnLoadingAsync().ConfigureAwait(true);
+        }
+
+        protected internal override async Task OnUnloadingAsync()
+        {
+            await _eventAggregator.UnsubscribeAsync(this).ConfigureAwait(true);
+            await base.OnUnloadingAsync().ConfigureAwait(true);
         }
     }
 }

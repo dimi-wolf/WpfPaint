@@ -3,11 +3,43 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <ControlTemplate x:Key="TranslateThumb">
-        <Rectangle Width="15" Height="15" Fill="#666495ED" Stroke="#6495ED" StrokeThickness="1"/>
+        <Image Source="{StaticResource arrow-all}" Width="20"/>
     </ControlTemplate>
 
-    <ControlTemplate x:Key="ResizeThumb">
-        <Rectangle Width="10" Height="10" Fill="#662ECC71" Stroke="#2ECC71" StrokeThickness="1"/>
+    <ControlTemplate x:Key="TranslatePointThumb">
+        <Ellipse Width="10" Height="10" Fill="LightGreen" StrokeThickness="1" Stroke="SpringGreen"/>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="ResizeBottomLeftThumb">
+        <Image Source="{StaticResource arrow-bottom-left-thick}" Width="12" Height="12"/>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="ResizeBottomRightThumb">
+        <Image Source="{StaticResource arrow-bottom-right-thick}" Width="12" Height="12"/>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="ResizeRightThumb">
+        <Image Source="{StaticResource arrow-right-thick}" Width="14"/>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="ResizeTopLeftThumb">
+        <Image Source="{StaticResource arrow-top-left-thick}" Width="12" Height="12"/>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="ResizeTopRightThumb">
+        <Image Source="{StaticResource arrow-top-right-thick}" Width="12" Height="12"/>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="ResizeUpThumb">
+        <Image Source="{StaticResource arrow-up-thick}" Height="14"/>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="ResizeDownThumb">
+        <Image Source="{StaticResource arrow-down-thick}" Height="14"/>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="ResizeLeftThumb">
+        <Image Source="{StaticResource arrow-left-thick}" Width="14"/>
     </ControlTemplate>
 
 </ResourceDictionary>

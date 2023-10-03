@@ -11,7 +11,7 @@ namespace WpfPaint
     /// The bootstrapper initializes the application and hosts the main window.
     /// </summary>
     /// <seealso cref="WpfPaint.MVVM.BootstrapperBase" />
-    internal class Bootstrapper : BootstrapperBase
+    public class Bootstrapper : BootstrapperBase
     {
         /// <summary>
         /// Configures the service dependencies.
@@ -26,7 +26,7 @@ namespace WpfPaint
             services.AddSingleton<IEventAggregator, EventAggregator>();
 
             // model
-            services.AddSingleton<ObjectsCollection>();
+            services.AddSingleton<ObjectsStore>();
 
             // view models
             services.AddTransient<MainViewModel>();

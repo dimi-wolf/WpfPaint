@@ -65,5 +65,48 @@ namespace WpfPaint.Views.Primitives
                 rect.Height += e.VerticalChange;
             }
         }
+
+        private async void OnRectangleMouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if (DataContext is Rectangle rect)
+            {
+                await rect.SetAsSelectedAsync()
+                    .ConfigureAwait(false);
+            }
+        }
+
+        private void OnTopDragDelta(object sender, DragDeltaEventArgs e)
+        {
+            if (DataContext is Rectangle rect)
+            {
+                rect.Position.Y += e.VerticalChange;
+                rect.Height -= e.VerticalChange;
+            }
+        }
+
+        private void OnRightDragDelta(object sender, DragDeltaEventArgs e)
+        {
+            if (DataContext is Rectangle rect)
+            {
+                rect.Width += e.HorizontalChange;
+            }
+        }
+
+        private void OnBottomDragDelta(object sender, DragDeltaEventArgs e)
+        {
+            if (DataContext is Rectangle rect)
+            {
+                rect.Height += e.VerticalChange;
+            }
+        }
+
+        private void OnLeftDragDelta(object sender, DragDeltaEventArgs e)
+        {
+            if (DataContext is Rectangle rect)
+            {
+                rect.Position.X += e.HorizontalChange;
+                rect.Width -= e.HorizontalChange;
+            }
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
+using WpfPaint.Messaging;
 using WpfPaint.MVVM;
 
 namespace WpfPaint.Model
@@ -13,12 +14,14 @@ namespace WpfPaint.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="PolyLine"/> class.
         /// </summary>
-        public PolyLine()
+        /// <param name="eventAggregator">The event aggregator.</param>
+        public PolyLine(IEventAggregator eventAggregator)
+            : base(eventAggregator)
         {
             Name = "Pfad";
             Points.Add(new Position { X = 10, Y = 10 });
             Points.Add(new Position { X = 90, Y = 90 });
-            AddPointCommand = new RelayCommand(param => AddPoint());
+            AddPointCommand = new RelayCommand(AddPoint);
         }
 
         /// <summary>

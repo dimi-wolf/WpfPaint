@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Diagnostics.CodeAnalysis;
+﻿using WpfPaint.Messaging;
 
 namespace WpfPaint.Model
 {
@@ -9,10 +8,14 @@ namespace WpfPaint.Model
     /// <seealso cref="WpfPaint.Model.PrimitiveBase" />
     public class Circle : PrimitiveBase
     {
+        private double _radius;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Circle"/> class.
         /// </summary>
-        public Circle()
+        /// <param name="eventAggregator">The event aggregator.</param>
+        public Circle(IEventAggregator eventAggregator)
+            : base(eventAggregator)
         {
             Name = "Kreis";
             Radius = 100;
@@ -34,8 +37,10 @@ namespace WpfPaint.Model
         /// </value>
         public double Radius
         {
-            get => GetValue<double>();
-            set => SetValue(value);
+            get => _radius;
+            set => SetValue(ref _radius, CheckedValue(value));
         }
+
+        private static double CheckedValue(double value) => value < 0 ? 0 : value;
     }
 }

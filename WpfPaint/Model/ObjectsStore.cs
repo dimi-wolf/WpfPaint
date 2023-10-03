@@ -7,7 +7,7 @@ namespace WpfPaint.Model
     /// <summary>
     /// An in memory collection for the drawn objects.
     /// </summary>
-    public class ObjectsCollection
+    public class ObjectsStore
     {
         private readonly IServiceProvider _serviceProvider;
 
@@ -19,10 +19,10 @@ namespace WpfPaint.Model
         };
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ObjectsCollection"/> class.
+        /// Initializes a new instance of the <see cref="ObjectsStore"/> class.
         /// </summary>
         /// <param name="serviceProvider">The service provider.</param>
-        public ObjectsCollection(IServiceProvider serviceProvider)
+        public ObjectsStore(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
         }

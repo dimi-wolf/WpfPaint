@@ -1,4 +1,8 @@
-﻿namespace WpfPaint.Model
+﻿using System.Threading.Tasks;
+using WpfPaint.Messages;
+using WpfPaint.Messaging;
+
+namespace WpfPaint.Model
 {
     /// <summary>
     /// The rectangle primitive.
@@ -6,12 +10,17 @@
     /// <seealso cref="WpfPaint.Model.PrimitiveBase" />
     public class Rectangle : PrimitiveBase
     {
+        private double _width;
+        private double _height;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Rectangle"/> class.
         /// </summary>
-        public Rectangle()
+        /// <param name="eventAggregator">The event aggregator.</param>
+        public Rectangle(IEventAggregator eventAggregator)
+            : base(eventAggregator)
         {
-            Name = "Rectangle";
+            Name = "Rechteck";
             Width = 100;
             Height = 100;
         }
@@ -32,8 +41,8 @@
         /// </value>
         public double Width
         {
-            get => GetValue<double>();
-            set => SetValue(value);
+            get => _width;
+            set => SetValue(ref _width, CheckedValue(value));
         }
 
         /// <summary>
@@ -44,8 +53,10 @@
         /// </value>
         public double Height
         {
-            get => GetValue<double>();
-            set => SetValue(value);
+            get => _height;
+            set => SetValue(ref _height, CheckedValue(value));
         }
+
+        private static double CheckedValue(double value) => value < 0 ? 0 : value;
     }
 }

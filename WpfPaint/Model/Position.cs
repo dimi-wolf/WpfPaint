@@ -9,6 +9,9 @@ namespace WpfPaint.Model
     /// <seealso cref="WpfPaint.MVVM.PropertyChangedBase" />
     public class Position : PropertyChangedBase
     {
+        private double _x;
+        private double _y;
+
         /// <summary>
         /// Gets or sets the x value.
         /// </summary>
@@ -17,8 +20,8 @@ namespace WpfPaint.Model
         /// </value>
         public double X
         {
-            get => GetValue<double>();
-            set => SetValue(value);
+            get => _x;
+            set => SetValue(ref _x, value);
         }
 
         /// <summary>
@@ -29,8 +32,8 @@ namespace WpfPaint.Model
         /// </value>
         public double Y
         {
-            get => GetValue<double>();
-            set => SetValue(value);
+            get => _y;
+            set => SetValue(ref _y, value);
         }
 
         /// <summary>
@@ -40,6 +43,12 @@ namespace WpfPaint.Model
         /// <returns>
         /// The result of the conversion.
         /// </returns>
-        public static implicit operator Point(Position position) => new(position.X, position.Y);
+        public static implicit operator Point(Position position) => position == null ? new() : new(position.X, position.Y);
+
+        /// <summary>
+        /// Converts to point.
+        /// </summary>
+        /// <returns></returns>
+        public Point ToPoint() => new(X, Y);
     }
 }

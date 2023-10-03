@@ -10,9 +10,10 @@ namespace WpfPaint.ViewModels
     /// </summary>
     /// <seealso cref="WpfPaint.MVVM.ViewModelBase" />
     /// <seealso cref="WpfPaint.Messaging.IHandle&lt;WpfPaint.Messages.SelectedObjectChangedMessage&gt;" />
-    internal class PropertiesViewModel : ViewModelBase, IHandle<SelectedObjectChangedMessage>
+    public class PropertiesViewModel : ViewModelBase, IHandle<SelectedObjectChangedMessage>
     {
         private readonly IEventAggregator _eventAggregator;
+        private object? _currentObject;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PropertiesViewModel"/> class.
@@ -31,8 +32,8 @@ namespace WpfPaint.ViewModels
         /// </value>
         public object? CurrentObject
         {
-            get => GetValue<object>();
-            set => SetValue(value);
+            get => _currentObject;
+            set => SetValue(ref _currentObject, value);
         }
 
         /// <summary>
@@ -44,7 +45,7 @@ namespace WpfPaint.ViewModels
         /// </returns>
         public Task HandleMessageAsync(SelectedObjectChangedMessage message)
         {
-            CurrentObject = message.SelectedObject;
+            CurrentObject = message?.SelectedObject;
             return Task.CompletedTask;
         }
 
@@ -53,8 +54,8 @@ namespace WpfPaint.ViewModels
         /// </summary>
         protected internal override async Task OnLoadingAsync()
         {
-            await _eventAggregator.SubscribeAsync(this);
-            await base.OnLoadingAsync();
+            await _eventAggregator.SubscribeAsync(this).ConfigureAwait(true);
+            await base.OnLoadingAsync().ConfigureAwait(true);
         }
 
         /// <summary>
@@ -62,8 +63,8 @@ namespace WpfPaint.ViewModels
         /// </summary>
         protected internal override async Task OnUnloadingAsync()
         {
-            await _eventAggregator.UnsubscribeAsync(this);
-            await base.OnUnloadingAsync();
+            await _eventAggregator.UnsubscribeAsync(this).ConfigureAwait(true);
+            await base.OnUnloadingAsync().ConfigureAwait(true);
         }
     }
 }

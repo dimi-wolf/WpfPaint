@@ -12,12 +12,12 @@
         <conv:PositionsToPointCollectionConverter x:Key="pointsConverter"/>
     </UserControl.Resources>
 
-    <Canvas>
+    <Canvas Visibility="{Binding IsVisible, Converter={StaticResource booleanToVisibilityConverter}}">
         <Polyline
             Points="{Binding Points, Converter={StaticResource pointsConverter}}"
             Stroke="LightGreen"
             StrokeThickness="3"
-            IsHitTestVisible="{Binding ShowControls}"/>
+            MouseUp="OnPolylineMouseUp"/>
 
         <ItemsControl
             ItemsSource="{Binding Points}"
@@ -31,7 +31,7 @@
 
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Thumb Template="{StaticResource ResizeThumb}" DragDelta="Thumb_DragDelta" Margin="-5"/>
+                    <Thumb Template="{StaticResource TranslatePointThumb}" DragDelta="Thumb_DragDelta" Margin="-5"/>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
 
