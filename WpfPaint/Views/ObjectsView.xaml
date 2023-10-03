@@ -8,6 +8,7 @@
     xmlns:mb="clr-namespace:MVVM.Behaviors;assembly=MVVM"
     xmlns:m="clr-namespace:WpfPaint.Model"
     xmlns:ov="clr-namespace:WpfPaint.Views.ObjectViews"
+    xmlns:loc="clr-namespace:WpfPaint.Localization"
     mc:Ignorable="d" 
     d:DesignHeight="450" d:DesignWidth="260">
 
@@ -46,7 +47,7 @@
         </Grid.RowDefinitions>
 
         <Label
-            Content="Objekte"
+            Content="{loc:Localization Objects}"
             Background="#256DB6"
             Foreground="#f0f0f0"
             Grid.Row="0"/>
@@ -58,9 +59,9 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <Button Grid.Column="0" Content="Rechteck" Command="{Binding RectangleCommand}" Background="Transparent" BorderThickness="0,1"/>
-            <Button Grid.Column="1" Content="Kreis" Command="{Binding CircleCommand}" Background="Transparent" BorderThickness="1,1,0,1"/>
-            <Button Grid.Column="2" Content="Pfad" Command="{Binding PolyLineCommand}" Background="Transparent"/>
+            <Button Grid.Column="0" Content="{loc:Localization Rectangle}" Command="{Binding RectangleCommand}" Background="Transparent" BorderThickness="0,1"/>
+            <Button Grid.Column="1" Content="{loc:Localization Circle}" Command="{Binding CircleCommand}" Background="Transparent" BorderThickness="1,1,0,1"/>
+            <Button Grid.Column="2" Content="{loc:Localization PolyLine}" Command="{Binding PolyLineCommand}" Background="Transparent"/>
         </Grid>
 
         <ListBox

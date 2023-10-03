@@ -33,7 +33,7 @@ namespace WpfPaint.Model
         /// <value>
         /// The name.
         /// </value>
-        [Required(ErrorMessage = "Der Name darf nicht leer sein.")]
+        [Required(ErrorMessageResourceType = typeof(Resources.Strings), ErrorMessageResourceName = nameof(Resources.Strings.ErrorNameRequired))]
         public string Name
         {
             get => _name;

@@ -15,7 +15,7 @@ namespace WpfPaint.ViewModels
         /// </summary>
         public FooterViewModel()
         {
-            StatusText = "Bereit";
+            StatusText = Resources.Strings.Ready;
         }
 
         /// <summary>

@@ -18,7 +18,7 @@ namespace WpfPaint.Model
         public Circle(IEventAggregator eventAggregator)
             : base(eventAggregator)
         {
-            Name = "Kreis";
+            Name = Resources.Strings.Circle;
             Radius = 100;
         }
 
@@ -36,7 +36,7 @@ namespace WpfPaint.Model
         /// <value>
         /// The radius.
         /// </value>
-        [Range(0, double.MaxValue, ErrorMessage = "Es sind nur positive Werte erlaubt.")]
+        [Range(0, double.MaxValue, ErrorMessageResourceType = typeof(Resources.Strings), ErrorMessageResourceName = nameof(Resources.Strings.ErrorOnlyPositiveValuesAllowed))]
         public double Radius
         {
             get => _radius;

@@ -25,11 +25,9 @@ namespace MVVM.ComponentModel
         /// </summary>
         /// <param name="propertyName">Name of the property.</param>
         /// <exception cref="System.ArgumentNullException">propertyName</exception>
-        protected virtual void NotifyPropertyChanging([CallerMemberName] string propertyName = "")
+        protected virtual void NotifyPropertyChanging([CallerMemberName] string? propertyName = null)
         {
-            if (string.IsNullOrEmpty(propertyName))
-                throw new ArgumentNullException(nameof(propertyName));
-
+            ArgumentNullException.ThrowIfNull(nameof(propertyName));
             PropertyChanging?.Invoke(this, new PropertyChangingEventArgs(propertyName));
         }
 
@@ -38,11 +36,9 @@ namespace MVVM.ComponentModel
         /// </summary>
         /// <param name="propertyName">The property name.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        protected virtual void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
+        protected virtual void NotifyPropertyChanged([CallerMemberName] string? propertyName = null)
         {
-            if (string.IsNullOrEmpty(propertyName))
-                throw new ArgumentNullException(nameof(propertyName));
-
+            ArgumentNullException.ThrowIfNull(nameof(propertyName));
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
@@ -54,10 +50,9 @@ namespace MVVM.ComponentModel
         /// <param name="value">The value to be set.</param>
         /// <param name="propertyName">Name of the property.</param>
         /// <exception cref="System.ArgumentNullException">propertyName</exception>
-        protected virtual bool SetValue<T>(ref T field, T value, [CallerMemberName] string propertyName = "")
+        protected virtual bool SetValue<T>(ref T field, T value, [CallerMemberName] string? propertyName = null)
         {
-            if (string.IsNullOrEmpty(propertyName))
-                throw new ArgumentNullException(nameof(propertyName));
+            ArgumentNullException.ThrowIfNull(nameof(propertyName));
 
             // do nothing if the values are equal
             if (EqualityComparer<T>.Default.Equals(field, value))

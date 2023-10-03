@@ -20,7 +20,7 @@ namespace WpfPaint.Model
         public Rectangle(IEventAggregator eventAggregator)
             : base(eventAggregator)
         {
-            Name = "Rechteck";
+            Name = Resources.Strings.Rectangle;
             Width = 100;
             Height = 100;
         }
@@ -39,7 +39,7 @@ namespace WpfPaint.Model
         /// <value>
         /// The width.
         /// </value>
-        [Range(0, double.MaxValue, ErrorMessage = "Es sind nur positive Werte erlaubt.")]
+        [Range(0, double.MaxValue, ErrorMessageResourceType = typeof(Resources.Strings), ErrorMessageResourceName = nameof(Resources.Strings.ErrorOnlyPositiveValuesAllowed))]
         public double Width
         {
             get => _width;
@@ -52,7 +52,7 @@ namespace WpfPaint.Model
         /// <value>
         /// The height.
         /// </value>
-        [Range(0, double.MaxValue, ErrorMessage = "Es sind nur positive Werte erlaubt.")]
+        [Range(0, double.MaxValue, ErrorMessageResourceType = typeof(Resources.Strings), ErrorMessageResourceName = nameof(Resources.Strings.ErrorOnlyPositiveValuesAllowed))]
         public double Height
         {
             get => _height;

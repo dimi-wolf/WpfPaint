@@ -130,6 +130,13 @@ namespace WpfPaint.ViewModels
             }
         }
 
+        /// <summary>
+        /// Handles the given message.
+        /// </summary>
+        /// <param name="message">The message to be handeled.</param>
+        /// <returns>
+        /// An awaitable task.
+        /// </returns>
         public Task HandleMessageAsync(SetSelectedObjectMessage message)
         {
             if (message != null)
@@ -140,12 +147,18 @@ namespace WpfPaint.ViewModels
             return Task.CompletedTask;
         }
 
+        /// <summary>
+        /// Called when the view model is loading.
+        /// </summary>
         public override async Task OnLoadingAsync()
         {
             await _eventAggregator.SubscribeAsync(this).ConfigureAwait(true);
             await base.OnLoadingAsync().ConfigureAwait(true);
         }
 
+        /// <summary>
+        /// Called when the view model is unloading.
+        /// </summary>
         public override async Task OnUnloadingAsync()
         {
             await _eventAggregator.UnsubscribeAsync(this).ConfigureAwait(true);

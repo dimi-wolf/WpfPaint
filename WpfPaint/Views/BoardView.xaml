@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
     xmlns:m="clr-namespace:WpfPaint.Model"
     xmlns:p="clr-namespace:WpfPaint.Views.Primitives"
+    xmlns:loc="clr-namespace:WpfPaint.Localization"
     mc:Ignorable="d" 
     d:DesignHeight="450" d:DesignWidth="800">
 
@@ -30,7 +31,7 @@
         </Grid.RowDefinitions>
 
         <Label
-            Content="Leinwand"
+            Content="{loc:Localization Canvas}"
             Background="#256DB6"
             Foreground="#f0f0f0"
             BorderThickness="1,0,0,0"

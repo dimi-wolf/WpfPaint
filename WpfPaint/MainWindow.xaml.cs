@@ -1,6 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using System;
+﻿using System;
 using System.Windows;
+using Microsoft.Extensions.DependencyInjection;
 using WpfPaint.ViewModels;
 
 namespace WpfPaint

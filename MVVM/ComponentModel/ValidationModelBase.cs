@@ -56,8 +56,10 @@ namespace MVVM.ComponentModel
         /// <param name="value">The value to be set.</param>
         /// <param name="propertyName">Name of the property.</param>
         /// <returns></returns>
-        protected override bool SetValue<T>(ref T field, T value, [CallerMemberName] string propertyName = "")
+        protected override bool SetValue<T>(ref T field, T value, [CallerMemberName] string? propertyName = null)
         {
+            ArgumentNullException.ThrowIfNull(propertyName, nameof(propertyName));
+
             bool hasChanged = base.SetValue(ref field, value, propertyName);
 
             if (hasChanged)

@@ -18,7 +18,7 @@ namespace WpfPaint.Model
         public PolyLine(IEventAggregator eventAggregator)
             : base(eventAggregator)
         {
-            Name = "Pfad";
+            Name = Resources.Strings.PolyLine;
             Points.Add(new Position { X = 10, Y = 10 });
             Points.Add(new Position { X = 90, Y = 90 });
             AddPointCommand = new RelayCommand(AddPoint);

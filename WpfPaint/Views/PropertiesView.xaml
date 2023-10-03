@@ -8,6 +8,7 @@
     xmlns:m="clr-namespace:WpfPaint.Model"
     xmlns:pv="clr-namespace:WpfPaint.Views.PropertyViews"
     xmlns:mb="clr-namespace:MVVM.Behaviors;assembly=MVVM"
+    xmlns:loc="clr-namespace:WpfPaint.Localization"
     mc:Ignorable="d" 
     d:DesignHeight="450" d:DesignWidth="200">
 
@@ -35,7 +36,7 @@
 
     <StackPanel Background="#F4F5F9">
         <Label
-            Content="Eigenschaften"
+            Content="{loc:Localization Properties}"
             Background="#256DB6"
             Foreground="#f0f0f0"
             BorderThickness="1,0,0,0"
