@@ -1,5 +1,5 @@
 ﻿using System.Windows;
-using WpfPaint.MVVM;
+using MVVM.ComponentModel;
 
 namespace WpfPaint.Model
 {

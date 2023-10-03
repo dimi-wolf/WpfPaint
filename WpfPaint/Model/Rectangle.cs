@@ -1,6 +1,6 @@
-﻿using System.Threading.Tasks;
-using WpfPaint.Messages;
-using WpfPaint.Messaging;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using MVVM.Messaging;
 
 namespace WpfPaint.Model
 {
@@ -39,6 +39,7 @@ namespace WpfPaint.Model
         /// <value>
         /// The width.
         /// </value>
+        [Range(0, double.MaxValue, ErrorMessage = "Es sind nur positive Werte erlaubt.")]
         public double Width
         {
             get => _width;
@@ -51,6 +52,7 @@ namespace WpfPaint.Model
         /// <value>
         /// The height.
         /// </value>
+        [Range(0, double.MaxValue, ErrorMessage = "Es sind nur positive Werte erlaubt.")]
         public double Height
         {
             get => _height;

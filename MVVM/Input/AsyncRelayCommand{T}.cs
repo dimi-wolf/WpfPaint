@@ -1,8 +1,6 @@
-﻿using System;
-using System.Threading.Tasks;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 
-namespace WpfPaint.MVVM
+namespace MVVM.Input
 {
     /// <summary>
     /// The async relay command delegates the execute and can execute tasks to the view model.

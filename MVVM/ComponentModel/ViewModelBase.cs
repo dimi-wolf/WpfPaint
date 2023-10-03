@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-namespace WpfPaint.MVVM
+﻿namespace MVVM.ComponentModel
 {
     /// <summary>
     /// The base class of a view model.
@@ -25,7 +23,7 @@ namespace WpfPaint.MVVM
         /// <returns>
         /// An awaitable <see cref="Task"/>.
         /// </returns>
-        protected internal virtual Task OnLoadingAsync()
+        public virtual Task OnLoadingAsync()
         {
             IsLoaded = true;
             return Task.CompletedTask;
@@ -37,7 +35,7 @@ namespace WpfPaint.MVVM
         /// <returns>
         /// An awaitable <see cref="Task"/>.
         /// </returns>
-        protected internal virtual Task OnUnloadingAsync()
+        public virtual Task OnUnloadingAsync()
         {
             IsLoaded = false;
             return Task.CompletedTask;

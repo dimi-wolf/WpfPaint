@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-namespace WpfPaint.Messaging
+﻿namespace MVVM.Messaging
 {
     /// <summary>
     /// The event aggregator to communicate between objects.

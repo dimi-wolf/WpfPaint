@@ -2,7 +2,7 @@
 using System;
 using System.Windows;
 
-namespace WpfPaint.MVVM
+namespace MVVM
 {
     /// <summary>
     /// The base class of a bootstrapper to initialize dependencies for the program startup.

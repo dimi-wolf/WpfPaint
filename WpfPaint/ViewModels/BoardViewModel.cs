@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
+using MVVM.ComponentModel;
 using WpfPaint.Model;
-using WpfPaint.MVVM;
 
 namespace WpfPaint.ViewModels
 {

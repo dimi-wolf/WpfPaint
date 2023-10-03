@@ -5,7 +5,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
     xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
-    xmlns:mvvm="clr-namespace:WpfPaint.MVVM"
+    xmlns:mb="clr-namespace:MVVM.Behaviors;assembly=MVVM"
     xmlns:m="clr-namespace:WpfPaint.Model"
     xmlns:ov="clr-namespace:WpfPaint.Views.ObjectViews"
     mc:Ignorable="d" 
@@ -35,7 +35,7 @@
     </UserControl.Resources>
 
     <b:Interaction.Behaviors>
-        <mvvm:LifecycleBehavior/>
+        <mb:LifecycleBehavior/>
     </b:Interaction.Behaviors>
 
     <Grid>

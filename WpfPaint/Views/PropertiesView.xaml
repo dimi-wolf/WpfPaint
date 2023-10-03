@@ -7,7 +7,7 @@
     xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:m="clr-namespace:WpfPaint.Model"
     xmlns:pv="clr-namespace:WpfPaint.Views.PropertyViews"
-    xmlns:mvvm="clr-namespace:WpfPaint.MVVM"
+    xmlns:mb="clr-namespace:MVVM.Behaviors;assembly=MVVM"
     mc:Ignorable="d" 
     d:DesignHeight="450" d:DesignWidth="200">
 
@@ -30,7 +30,7 @@
     </UserControl.Resources>
 
     <b:Interaction.Behaviors>
-        <mvvm:LifecycleBehavior/>
+        <mb:LifecycleBehavior/>
     </b:Interaction.Behaviors>
 
     <StackPanel Background="#F4F5F9">

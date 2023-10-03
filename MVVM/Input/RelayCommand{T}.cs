@@ -1,23 +1,23 @@
-﻿using System;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 
-namespace WpfPaint.MVVM
+namespace MVVM.Input
 {
     /// <summary>
     /// The relay command delegates the execute and can execute actions to the view model.
     /// </summary>
+    /// <typeparam name="TParameter">The type of the parameter.</typeparam>
     /// <seealso cref="System.Windows.Input.ICommand" />
-    public class RelayCommand : ICommand
+    public class RelayCommand<TParameter> : ICommand
     {
-        private readonly Action _execute;
-        private readonly Func<bool>? _canExecute;
+        private readonly Action<TParameter?> _execute;
+        private readonly Predicate<TParameter?>? _canExecute;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RelayCommand"/> class.
         /// </summary>
         /// <param name="execute">The execute action.</param>
         /// <param name="canExecute">The function that determines an action can be executed.</param>
-        public RelayCommand(Action execute, Func<bool>? canExecute = null)
+        public RelayCommand(Action<TParameter?> execute, Predicate<TParameter?>? canExecute = null)
         {
             _execute = execute;
             _canExecute = canExecute;
@@ -39,7 +39,7 @@ namespace WpfPaint.MVVM
         {
             if (_canExecute != null)
             {
-                return _canExecute();
+                return _canExecute((TParameter?)parameter);
             }
 
             return true;
@@ -51,7 +51,7 @@ namespace WpfPaint.MVVM
         /// <param name="parameter">Data used by the command.</param>
         public void Execute(object? parameter)
         {
-            _execute();
+            _execute((TParameter?)parameter);
         }
 
         /// <summary>

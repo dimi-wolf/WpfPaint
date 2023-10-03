@@ -1,4 +1,4 @@
-﻿using WpfPaint.MVVM;
+﻿using MVVM.ComponentModel;
 
 namespace WpfPaint.ViewModels
 {

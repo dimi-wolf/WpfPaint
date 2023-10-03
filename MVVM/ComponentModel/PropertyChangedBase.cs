@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace WpfPaint.MVVM
+namespace MVVM.ComponentModel
 {
     /// <summary>
     /// The base class to notify that a value of a property has changed.

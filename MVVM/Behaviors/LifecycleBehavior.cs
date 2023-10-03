@@ -1,7 +1,8 @@
 ﻿using System.Windows.Controls;
 using Microsoft.Xaml.Behaviors;
+using MVVM.ComponentModel;
 
-namespace WpfPaint.MVVM
+namespace MVVM.Behaviors
 {
     /// <summary>
     /// Controls the lifecycle of a view model.

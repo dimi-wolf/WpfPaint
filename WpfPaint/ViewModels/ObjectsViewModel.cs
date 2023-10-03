@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using MVVM.ComponentModel;
+using MVVM.Input;
+using MVVM.Messaging;
 using WpfPaint.Messages;
-using WpfPaint.Messaging;
 using WpfPaint.Model;
-using WpfPaint.MVVM;
 
 namespace WpfPaint.ViewModels
 {
@@ -140,13 +140,13 @@ namespace WpfPaint.ViewModels
             return Task.CompletedTask;
         }
 
-        protected internal override async Task OnLoadingAsync()
+        public override async Task OnLoadingAsync()
         {
             await _eventAggregator.SubscribeAsync(this).ConfigureAwait(true);
             await base.OnLoadingAsync().ConfigureAwait(true);
         }
 
-        protected internal override async Task OnUnloadingAsync()
+        public override async Task OnUnloadingAsync()
         {
             await _eventAggregator.UnsubscribeAsync(this).ConfigureAwait(true);
             await base.OnUnloadingAsync().ConfigureAwait(true);

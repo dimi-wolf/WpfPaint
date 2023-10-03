@@ -1,4 +1,5 @@
-﻿using WpfPaint.Messaging;
+﻿using System.ComponentModel.DataAnnotations;
+using MVVM.Messaging;
 
 namespace WpfPaint.Model
 {
@@ -35,6 +36,7 @@ namespace WpfPaint.Model
         /// <value>
         /// The radius.
         /// </value>
+        [Range(0, double.MaxValue, ErrorMessage = "Es sind nur positive Werte erlaubt.")]
         public double Radius
         {
             get => _radius;

@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-namespace WpfPaint.Messaging
+﻿namespace MVVM.Messaging
 {
     /// <summary>
     /// Marker iterface for the <see cref="EventAggregator"/> to handle messages.

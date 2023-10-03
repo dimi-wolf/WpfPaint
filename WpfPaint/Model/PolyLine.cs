@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
-using WpfPaint.Messaging;
-using WpfPaint.MVVM;
+using MVVM.Input;
+using MVVM.Messaging;
 
 namespace WpfPaint.Model
 {

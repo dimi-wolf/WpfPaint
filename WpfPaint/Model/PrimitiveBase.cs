@@ -1,15 +1,16 @@
-﻿using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
+using MVVM.ComponentModel;
+using MVVM.Messaging;
 using WpfPaint.Messages;
-using WpfPaint.Messaging;
-using WpfPaint.MVVM;
 
 namespace WpfPaint.Model
 {
     /// <summary>
     /// The base class of an primitive.
     /// </summary>
-    /// <seealso cref="WpfPaint.MVVM.PropertyChangedBase" />
-    public abstract class PrimitiveBase : PropertyChangedBase
+    /// <seealso cref="WpfPaint.MVVM.ValidationModelBase" />
+    public abstract class PrimitiveBase : ValidationModelBase
     {
         private readonly IEventAggregator _eventAggregator;
         private string _name = string.Empty;
@@ -32,6 +33,7 @@ namespace WpfPaint.Model
         /// <value>
         /// The name.
         /// </value>
+        [Required(ErrorMessage = "Der Name darf nicht leer sein.")]
         public string Name
         {
             get => _name;

@@ -1,8 +1,8 @@
 ﻿using System;
 using Microsoft.Extensions.DependencyInjection;
-using WpfPaint.Messaging;
+using MVVM;
+using MVVM.Messaging;
 using WpfPaint.Model;
-using WpfPaint.MVVM;
 using WpfPaint.ViewModels;
 
 namespace WpfPaint
