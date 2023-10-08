@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using MVVM.ComponentModel;
 using WpfPaint.Model;
 
 namespace WpfPaint.ViewModels
@@ -7,8 +6,7 @@ namespace WpfPaint.ViewModels
     /// <summary>
     /// The view model for the drawing board.
     /// </summary>
-    /// <seealso cref="WpfPaint.MVVM.ViewModelBase" />
-    public class BoardViewModel : ViewModelBase
+    public class BoardViewModel
     {
         private readonly ObjectsStore _objectsCollection;
 

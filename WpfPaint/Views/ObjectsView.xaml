@@ -4,8 +4,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-    xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
-    xmlns:mb="clr-namespace:MVVM.Behaviors;assembly=MVVM"
     xmlns:m="clr-namespace:WpfPaint.Model"
     xmlns:ov="clr-namespace:WpfPaint.Views.ObjectViews"
     xmlns:loc="clr-namespace:WpfPaint.Localization"
@@ -35,10 +33,6 @@
         </DataTemplate>
     </UserControl.Resources>
 
-    <b:Interaction.Behaviors>
-        <mb:LifecycleBehavior/>
-    </b:Interaction.Behaviors>
-
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -59,9 +53,28 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <Button Grid.Column="0" Content="{loc:Localization Rectangle}" Command="{Binding RectangleCommand}" Background="Transparent" BorderThickness="0,1"/>
-            <Button Grid.Column="1" Content="{loc:Localization Circle}" Command="{Binding CircleCommand}" Background="Transparent" BorderThickness="1,1,0,1"/>
-            <Button Grid.Column="2" Content="{loc:Localization PolyLine}" Command="{Binding PolyLineCommand}" Background="Transparent"/>
+            <Button 
+                Grid.Column="0"
+                Content="{loc:Localization Rectangle}"
+                Command="{Binding AddObjectCommand}"
+                CommandParameter="{x:Static m:ObjectTypes.Rectangle}"
+                Background="Transparent"
+                BorderThickness="0,1"/>
+
+            <Button
+                Grid.Column="1"
+                Content="{loc:Localization Circle}"
+                Command="{Binding AddObjectCommand}"
+                CommandParameter="{x:Static m:ObjectTypes.Circle}"
+                Background="Transparent"
+                BorderThickness="1,1,0,1"/>
+
+            <Button
+                Grid.Column="2"
+                Content="{loc:Localization PolyLine}"
+                Command="{Binding AddObjectCommand}"
+                CommandParameter="{x:Static m:ObjectTypes.PolyLine}"
+                Background="Transparent"/>
         </Grid>
 
         <ListBox

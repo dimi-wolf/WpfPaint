@@ -1,7 +1,9 @@
 ﻿using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
-using MVVM.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Messaging;
+using WpfPaint.Messages;
 using WpfPaint.Model;
 
 namespace WpfPaint.ViewModels
@@ -9,9 +11,13 @@ namespace WpfPaint.ViewModels
     /// <summary>
     /// The view model for the header.
     /// </summary>
-    /// <seealso cref="WpfPaint.MVVM.ViewModelBase" />
-    public class HeaderViewModel : ViewModelBase
+    /// <seealso cref="CommunityToolkit.Mvvm.ComponentModel.ObservableRecipient" />
+    public partial class HeaderViewModel : ObservableRecipient
     {
+        /// <summary>
+        /// Gets or sets the title.
+        /// </summary>
+        [ObservableProperty]
         private string _title = string.Empty;
         private Language? _selectedLanguage;
 
@@ -21,21 +27,9 @@ namespace WpfPaint.ViewModels
         public HeaderViewModel()
         {
             Title = "WPF Paint (MVVM ShowCase)";
-            Languages.Add(new("DE", Resources.Strings.German));
-            Languages.Add(new("EN", Resources.Strings.English));
+            Languages.Add(new("DE", () => Resources.Strings.German));
+            Languages.Add(new("EN", () => Resources.Strings.English));
             SelectedLanguage = Languages.First();
-        }
-
-        /// <summary>
-        /// Gets or sets the title.
-        /// </summary>
-        /// <value>
-        /// The title.
-        /// </value>
-        public string Title
-        {
-            get => _title;
-            set => SetValue(ref _title, value);
         }
 
         /// <summary>
@@ -55,15 +49,17 @@ namespace WpfPaint.ViewModels
         public Language? SelectedLanguage
         {
             get => _selectedLanguage;
-            set
+            set => SetProperty(_selectedLanguage, value, callback: OnSelectedLanguageChanging);
+        }
+
+        private void OnSelectedLanguageChanging(Language? value)
+        {
+            _selectedLanguage = value;
+
+            if (value != null)
             {
-                if (SetValue(ref _selectedLanguage, value))
-                {
-                    if (value != null)
-                    {
-                        Localization.LocalizationSource.Instance.CurrentCulture = new CultureInfo(value.Code);
-                    }
-                }
+                Localization.LocalizationSource.Instance.CurrentCulture = new CultureInfo(value.Code);
+                Messenger.Send(new LanguageChangedMessage());
             }
         }
     }

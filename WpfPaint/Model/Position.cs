@@ -1,40 +1,25 @@
 ﻿using System.Windows;
-using MVVM.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace WpfPaint.Model
 {
     /// <summary>
     /// The position of an object.
     /// </summary>
-    /// <seealso cref="WpfPaint.MVVM.PropertyChangedBase" />
-    public class Position : PropertyChangedBase
+    /// <seealso cref="CommunityToolkit.Mvvm.ComponentModel.ObservableObject" />
+    public partial class Position : ObservableObject
     {
-        private double _x;
-        private double _y;
-
         /// <summary>
         /// Gets or sets the x value.
         /// </summary>
-        /// <value>
-        /// The x value.
-        /// </value>
-        public double X
-        {
-            get => _x;
-            set => SetValue(ref _x, value);
-        }
+        [ObservableProperty]
+        private double _x;
 
         /// <summary>
         /// Gets or sets the y value.
         /// </summary>
-        /// <value>
-        /// The y value.
-        /// </value>
-        public double Y
-        {
-            get => _y;
-            set => SetValue(ref _y, value);
-        }
+        [ObservableProperty]
+        private double _y;
 
         /// <summary>
         /// Performs an implicit conversion from <see cref="Position"/> to <see cref="Point"/>.

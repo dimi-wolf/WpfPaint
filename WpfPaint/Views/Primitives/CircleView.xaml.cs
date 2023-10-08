@@ -38,12 +38,11 @@ namespace WpfPaint.Views.Primitives
             }
         }
 
-        private async void OnCircleMouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void OnCircleMouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             if (DataContext is Circle circle)
             {
-                await circle.SetAsSelectedAsync()
-                    .ConfigureAwait(false);
+                circle.SetSelected();
             }
         }
     }

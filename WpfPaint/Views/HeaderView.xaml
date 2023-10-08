@@ -36,9 +36,9 @@
                             <ControlTemplate TargetType="{x:Type ComboBoxItem}">
                                 <Label Name="label">
                                     <TextBlock>
-                                        <Run Text="{Binding Code}"/>
+                                        <Run Text="{Binding Code, Mode=OneWay}"/>
                                         <Run Text="-"/>
-                                        <Run Text="{Binding Name}"/>
+                                        <Run Text="{Binding Name, Mode=OneWay}"/>
                                     </TextBlock>
                                 </Label>
                                 <ControlTemplate.Triggers>

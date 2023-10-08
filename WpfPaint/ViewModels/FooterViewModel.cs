@@ -1,33 +1,43 @@
-﻿using MVVM.ComponentModel;
+﻿using System;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Messaging;
+using WpfPaint.Messages;
 
 namespace WpfPaint.ViewModels
 {
     /// <summary>
     /// The view model for the footer.
     /// </summary>
-    /// <seealso cref="WpfPaint.MVVM.ViewModelBase" />
-    public class FooterViewModel : ViewModelBase
+    /// <seealso cref="CommunityToolkit.Mvvm.ComponentModel.ObservableRecipient" />
+    /// <seealso cref="CommunityToolkit.Mvvm.Messaging.IRecipient&lt;WpfPaint.Messages.LanguageChangedMessage&gt;" />
+    public class FooterViewModel : ObservableRecipient, IRecipient<LanguageChangedMessage>
     {
-        private string _statusText = string.Empty;
+        private readonly Func<string> _getStatusText;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FooterViewModel"/> class.
         /// </summary>
         public FooterViewModel()
         {
-            StatusText = Resources.Strings.Ready;
+            _getStatusText = () => Resources.Strings.Ready;
+            IsActive = true;
         }
 
         /// <summary>
-        /// Gets or sets the status text.
+        /// Gets the status text.
         /// </summary>
         /// <value>
         /// The status text.
         /// </value>
-        public string StatusText
+        public string StatusText => _getStatusText();
+
+        /// <summary>
+        /// Receives a given <typeparamref name="TMessage" /> message instance.
+        /// </summary>
+        /// <param name="message">The message being received.</param>
+        public void Receive(LanguageChangedMessage message)
         {
-            get => _statusText;
-            set => SetValue(ref _statusText, value);
+            OnPropertyChanged(nameof(StatusText));
         }
     }
 }

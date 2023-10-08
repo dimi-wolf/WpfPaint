@@ -1,15 +1,15 @@
 ﻿using System.Globalization;
 using System.Resources;
 using System.Threading;
-using MVVM.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace WpfPaint.Localization
 {
     /// <summary>
     /// The LocalizationSource is used by the <see cref="LocalizationExtension"/> to bind to the ResourceManager.
     /// </summary>
-    /// <seealso cref="MVVM.ComponentModel.PropertyChangedBase" />
-    public sealed class LocalizationSource : PropertyChangedBase
+    /// <seealso cref="CommunityToolkit.Mvvm.ComponentModel.ObservableObject" />
+    public sealed class LocalizationSource : ObservableObject
     {
         private readonly ResourceManager _resourceManager = Resources.Strings.ResourceManager;
         private CultureInfo? _currentCulture;
@@ -48,10 +48,10 @@ namespace WpfPaint.Localization
             get => _currentCulture;
             set
             {
-                if (SetValue(ref _currentCulture, value) && value != null)
+                if (SetProperty(ref _currentCulture, value) && value != null)
                 {
                     SetCulture(value);
-                    NotifyPropertyChanged(string.Empty);
+                    OnPropertyChanged(string.Empty);
                 }
             }
         }

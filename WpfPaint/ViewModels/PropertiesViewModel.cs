@@ -1,6 +1,5 @@
-﻿using System.Threading.Tasks;
-using MVVM.ComponentModel;
-using MVVM.Messaging;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Messaging;
 using WpfPaint.Messages;
 
 namespace WpfPaint.ViewModels
@@ -8,63 +7,35 @@ namespace WpfPaint.ViewModels
     /// <summary>
     /// The view model for the properties page.
     /// </summary>
-    /// <seealso cref="WpfPaint.MVVM.ViewModelBase" />
-    /// <seealso cref="WpfPaint.Messaging.IHandle&lt;WpfPaint.Messages.SelectedObjectChangedMessage&gt;" />
-    public class PropertiesViewModel : ViewModelBase, IHandle<SelectedObjectChangedMessage>
+    /// <seealso cref="CommunityToolkit.Mvvm.ComponentModel.ObservableRecipient" />
+    /// <seealso cref="CommunityToolkit.Mvvm.Messaging.IRecipient&lt;WpfPaint.Messages.SelectedObjectChangedMessage&gt;" />
+    public partial class PropertiesViewModel : ObservableRecipient, IRecipient<SelectedObjectChangedMessage>
     {
-        private readonly IEventAggregator _eventAggregator;
+        /// <summary>
+        /// Gets or sets the current object.
+        /// </summary>
+        [ObservableProperty]
         private object? _currentObject;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PropertiesViewModel"/> class.
         /// </summary>
-        /// <param name="eventAggregator">The event aggregator.</param>
-        public PropertiesViewModel(IEventAggregator eventAggregator)
+        /// <remarks>
+        /// This constructor will produce an instance that will use the <see cref="CommunityToolkit.Mvvm.Messaging.WeakReferenceMessenger.Default" /> instance
+        /// to perform requested operations. It will also be available locally through the <see cref="CommunityToolkit.Mvvm.ComponentModel.ObservableRecipient.Messenger" /> property.
+        /// </remarks>
+        public PropertiesViewModel()
         {
-            _eventAggregator = eventAggregator;
+            IsActive = true;
         }
 
         /// <summary>
-        /// Gets or sets the current object.
+        /// Receives a given <typeparamref name="TMessage" /> message instance.
         /// </summary>
-        /// <value>
-        /// The current object.
-        /// </value>
-        public object? CurrentObject
-        {
-            get => _currentObject;
-            set => SetValue(ref _currentObject, value);
-        }
-
-        /// <summary>
-        /// Handles the given message.
-        /// </summary>
-        /// <param name="message">The message to be handeled.</param>
-        /// <returns>
-        /// An awaitable task.
-        /// </returns>
-        public Task HandleMessageAsync(SelectedObjectChangedMessage message)
+        /// <param name="message">The message being received.</param>
+        public void Receive(SelectedObjectChangedMessage message)
         {
             CurrentObject = message?.SelectedObject;
-            return Task.CompletedTask;
-        }
-
-        /// <summary>
-        /// Called when the view model is loading.
-        /// </summary>
-        public override async Task OnLoadingAsync()
-        {
-            await _eventAggregator.SubscribeAsync(this).ConfigureAwait(true);
-            await base.OnLoadingAsync().ConfigureAwait(true);
-        }
-
-        /// <summary>
-        /// Called when the view model is unloading.
-        /// </summary>
-        public override async Task OnUnloadingAsync()
-        {
-            await _eventAggregator.UnsubscribeAsync(this).ConfigureAwait(true);
-            await base.OnUnloadingAsync().ConfigureAwait(true);
         }
     }
 }

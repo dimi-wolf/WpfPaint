@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Threading.Tasks;
-using MVVM.ComponentModel;
-using MVVM.Messaging;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Messaging;
 using WpfPaint.Messages;
 
 namespace WpfPaint.Model
@@ -9,68 +8,45 @@ namespace WpfPaint.Model
     /// <summary>
     /// The base class of an primitive.
     /// </summary>
-    /// <seealso cref="WpfPaint.MVVM.ValidationModelBase" />
-    public abstract class PrimitiveBase : ValidationModelBase
+    /// <seealso cref="CommunityToolkit.Mvvm.ComponentModel.ObservableValidator" />
+    public abstract partial class PrimitiveBase : ObservableValidator
     {
-        private readonly IEventAggregator _eventAggregator;
-        private string _name = string.Empty;
-        private bool _showControls;
-        private bool _isVisible;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="PrimitiveBase"/> class.
-        /// </summary>
-        /// <param name="eventAggregator">The event aggregator.</param>
-        protected PrimitiveBase(IEventAggregator eventAggregator)
-        {
-            _eventAggregator = eventAggregator;
-            _isVisible = true;
-        }
+        private readonly IMessenger _messenger;
 
         /// <summary>
         /// Gets or sets the name.
         /// </summary>
-        /// <value>
-        /// The name.
-        /// </value>
+        [ObservableProperty]
         [Required(ErrorMessageResourceType = typeof(Resources.Strings), ErrorMessageResourceName = nameof(Resources.Strings.ErrorNameRequired))]
-        public string Name
+        private string _name = string.Empty;
+
+        /// <summary>
+        /// Gets or sets a value indication whether the controls should be shown.
+        /// </summary>
+        [ObservableProperty]
+        private bool _showControls;
+
+        /// <summary>
+        /// Gets or sets a value indication whether the object is visible.
+        /// </summary>
+        [ObservableProperty]
+        private bool _isVisible = true;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PrimitiveBase"/> class.
+        /// </summary>
+        /// <param name="messenger">The messenger.</param>
+        protected PrimitiveBase(IMessenger messenger)
         {
-            get => _name;
-            set => SetValue(ref _name, value);
+            _messenger = messenger;
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether the controls should be shown.
+        /// Sets this primitve as selected.
         /// </summary>
-        /// <value>
-        ///   <c>true</c> if the controls are shown; otherwise, <c>false</c>.
-        /// </value>
-        public bool ShowControls
+        public void SetSelected()
         {
-            get => _showControls;
-            set => SetValue(ref _showControls, value);
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether this instance is visible.
-        /// </summary>
-        /// <value>
-        ///   <c>true</c> if this instance is visible; otherwise, <c>false</c>.
-        /// </value>
-        public bool IsVisible
-        {
-            get => _isVisible;
-            set => SetValue(ref _isVisible, value);
-        }
-
-        /// <summary>
-        /// Sets this instance as the selected object.
-        /// </summary>
-        public async Task SetAsSelectedAsync()
-        {
-            await _eventAggregator.SendMessageAsync(new SetSelectedObjectMessage(this))
-                .ConfigureAwait(true);
+            _messenger.Send(new SetSelectedObjectMessage(this));
         }
     }
 }

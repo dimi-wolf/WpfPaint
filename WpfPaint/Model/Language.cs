@@ -1,49 +1,55 @@
-﻿using MVVM.ComponentModel;
+﻿using System;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Messaging;
+using WpfPaint.Messages;
 
 namespace WpfPaint.Model
 {
     /// <summary>
     /// Represents a language.
     /// </summary>
-    /// <seealso cref="MVVM.ComponentModel.PropertyChangedBase" />
-    public class Language : PropertyChangedBase
+    /// <seealso cref="CommunityToolkit.Mvvm.ComponentModel.ObservableRecipient" />
+    /// <seealso cref="CommunityToolkit.Mvvm.Messaging.IRecipient&lt;WpfPaint.Messages.LanguageChangedMessage&gt;" />
+    public partial class Language : ObservableRecipient, IRecipient<LanguageChangedMessage>
     {
-        private string _code;
-        private string _name;
+        private readonly string _code;
+        private readonly Func<string> _getName;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Language"/> class.
         /// </summary>
         /// <param name="code">The code.</param>
         /// <param name="name">The name.</param>
-        public Language(string code, string name)
+        public Language(string code, Func<string> name)
         {
             _code = code;
-            _name = name;
+            _getName = name;
+            IsActive = true;
         }
 
         /// <summary>
-        /// Gets or sets the code.
+        /// Gets the code.
         /// </summary>
         /// <value>
         /// The code.
         /// </value>
-        public string Code
-        {
-            get => _code;
-            set => SetValue(ref _code, value);
-        }
+        public string Code => _code;
 
         /// <summary>
-        /// Gets or sets the name.
+        /// Gets the name.
         /// </summary>
         /// <value>
         /// The name.
         /// </value>
-        public string Name
+        public string Name => _getName();
+
+        /// <summary>
+        /// Receives a given <typeparamref name="TMessage" /> message instance.
+        /// </summary>
+        /// <param name="message">The message being received.</param>
+        public void Receive(LanguageChangedMessage message)
         {
-            get => _name;
-            set => SetValue(ref _name, value);
+            OnPropertyChanged(nameof(Name));
         }
     }
 }

@@ -27,12 +27,11 @@ namespace WpfPaint.Views.Primitives
             }
         }
 
-        private async void OnPolylineMouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void OnPolylineMouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             if (DataContext is PolyLine polyLine)
             {
-                await polyLine.SetAsSelectedAsync()
-                    .ConfigureAwait(false);
+                polyLine.SetSelected();
             }
         }
     }

@@ -66,12 +66,11 @@ namespace WpfPaint.Views.Primitives
             }
         }
 
-        private async void OnRectangleMouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void OnRectangleMouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             if (DataContext is Rectangle rect)
             {
-                await rect.SetAsSelectedAsync()
-                    .ConfigureAwait(false);
+                rect.SetSelected();
             }
         }
 

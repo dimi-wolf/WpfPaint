@@ -4,10 +4,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-    xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:m="clr-namespace:WpfPaint.Model"
     xmlns:pv="clr-namespace:WpfPaint.Views.PropertyViews"
-    xmlns:mb="clr-namespace:MVVM.Behaviors;assembly=MVVM"
     xmlns:loc="clr-namespace:WpfPaint.Localization"
     mc:Ignorable="d" 
     d:DesignHeight="450" d:DesignWidth="200">
@@ -29,10 +27,6 @@
             <pv:PolyLinePropertyView/>
         </DataTemplate>
     </UserControl.Resources>
-
-    <b:Interaction.Behaviors>
-        <mb:LifecycleBehavior/>
-    </b:Interaction.Behaviors>
 
     <StackPanel Background="#F4F5F9">
         <Label

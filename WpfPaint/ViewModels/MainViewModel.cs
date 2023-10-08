@@ -1,12 +1,9 @@
-﻿using MVVM.ComponentModel;
-
-namespace WpfPaint.ViewModels
+﻿namespace WpfPaint.ViewModels
 {
     /// <summary>
     /// The main view model of the application.
     /// </summary>
-    /// <seealso cref="WpfPaint.MVVM.ViewModelBase" />
-    public class MainViewModel : ViewModelBase
+    public class MainViewModel
     {
         private readonly HeaderViewModel _headerViewModel;
         private readonly ObjectsViewModel _objectsViewModel;
