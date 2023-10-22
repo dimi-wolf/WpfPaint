@@ -1,36 +1,33 @@
-﻿namespace WpfPaint.ViewModels
+﻿using System;
+using System.Threading;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.Extensions.DependencyInjection;
+using WpfPaint.Authorization;
+using WpfPaint.Messages;
+
+namespace WpfPaint.ViewModels
 {
     /// <summary>
     /// The main view model of the application.
     /// </summary>
-    public class MainViewModel
+    public class MainViewModel : ObservableRecipient, IRecipient<AuthenticationMessage>
     {
-        private readonly HeaderViewModel _headerViewModel;
-        private readonly ObjectsViewModel _objectsViewModel;
-        private readonly PropertiesViewModel _propertiesViewModel;
-        private readonly FooterViewModel _footerViewModel;
-        private readonly BoardViewModel _boardViewModel;
+        private readonly IServiceProvider _serviceProvider;
+        private object? _header;
+        private object? _objects;
+        private object? _mainContent;
+        private object? _properties;
+        private object? _footer;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MainViewModel"/> class.
         /// </summary>
-        /// <param name="headerViewModel">The header view model.</param>
-        /// <param name="objectsViewModel">The objects view model.</param>
-        /// <param name="boardViewModel">The board view model.</param>
-        /// <param name="propertiesViewModel">The properties view model.</param>
-        /// <param name="footerViewModel">The footer view model.</param>
-        public MainViewModel(
-            HeaderViewModel headerViewModel,
-            ObjectsViewModel objectsViewModel,
-            BoardViewModel boardViewModel,
-            PropertiesViewModel propertiesViewModel,
-            FooterViewModel footerViewModel)
+        /// <param name="serviceProvider">The service provider.</param>
+        public MainViewModel(IServiceProvider serviceProvider)
         {
-            _headerViewModel = headerViewModel;
-            _objectsViewModel = objectsViewModel;
-            _boardViewModel = boardViewModel;
-            _propertiesViewModel = propertiesViewModel;
-            _footerViewModel = footerViewModel;
+            _serviceProvider = serviceProvider;
+            IsActive = true;
         }
 
         /// <summary>
@@ -39,7 +36,11 @@
         /// <value>
         /// The header.
         /// </value>
-        public HeaderViewModel Header => _headerViewModel;
+        public object? Header
+        {
+            get => _header;
+            private set => SetProperty(ref _header, value);
+        }
 
         /// <summary>
         /// Gets the objects.
@@ -47,7 +48,11 @@
         /// <value>
         /// The objects.
         /// </value>
-        public ObjectsViewModel Objects => _objectsViewModel;
+        public object? Objects
+        {
+            get => _objects;
+            private set => SetProperty(ref _objects, value);
+        }
 
         /// <summary>
         /// Gets the board.
@@ -55,7 +60,11 @@
         /// <value>
         /// The board.
         /// </value>
-        public BoardViewModel Board => _boardViewModel;
+        public object? MainContent
+        {
+            get => _mainContent;
+            private set => SetProperty(ref _mainContent, value);
+        }
 
         /// <summary>
         /// Gets the properties.
@@ -63,7 +72,11 @@
         /// <value>
         /// The properties.
         /// </value>
-        public PropertiesViewModel Properties => _propertiesViewModel;
+        public object? Properties
+        {
+            get => _properties;
+            private set => SetProperty(ref _properties, value);
+        }
 
         /// <summary>
         /// Gets the footer.
@@ -71,6 +84,52 @@
         /// <value>
         /// The footer.
         /// </value>
-        public FooterViewModel Footer => _footerViewModel;
+        public object? Footer
+        {
+            get => _footer;
+            private set => SetProperty(ref _footer, value);
+        }
+
+        public void Receive(AuthenticationMessage message)
+        {
+            ArgumentNullException.ThrowIfNull(message, nameof(message));
+
+            if (message.IsLoggedIn)
+            {
+                if (Thread.CurrentPrincipal is CustomPrincipal principal && principal.Identity.IsAuthenticated)
+                {
+                    Objects = _serviceProvider.GetService<ObjectsViewModel>();
+                    MainContent = _serviceProvider.GetService<BoardViewModel>();
+                    Properties = _serviceProvider.GetService<PropertiesViewModel>();
+                }
+            }
+            else
+            {
+                AuthenticationViewModel.Logout();
+                MainContent = _serviceProvider.GetService<AuthenticationViewModel>();
+                Objects = null;
+                Properties = null;
+            }
+        }
+
+        protected override void OnActivated()
+        {
+            base.OnActivated();
+
+            Header = _serviceProvider.GetService<HeaderViewModel>();
+            MainContent = _serviceProvider.GetService<AuthenticationViewModel>();
+            Footer = _serviceProvider.GetService<FooterViewModel>();
+        }
+
+        protected override void OnDeactivated()
+        {
+            base.OnDeactivated();
+
+            Header = null;
+            Objects = null;
+            MainContent = null;
+            Properties = null;
+            Footer = null;
+        }
     }
 }

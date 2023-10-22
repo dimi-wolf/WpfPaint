@@ -138,6 +138,18 @@
   <data name="Height" xml:space="preserve">
     <value>Höhe</value>
   </data>
+  <data name="Login" xml:space="preserve">
+    <value>Anmelden</value>
+  </data>
+  <data name="LoginFailed" xml:space="preserve">
+    <value>Der Login ist fehlgeschlagen! Bitte geben Sie gültige Anmeldeinformationen an.</value>
+  </data>
+  <data name="LoginHeader" xml:space="preserve">
+    <value>Anmeldung</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Abmelden</value>
+  </data>
   <data name="Name" xml:space="preserve">
     <value>Name</value>
   </data>
@@ -146,6 +158,12 @@
   </data>
   <data name="Objects" xml:space="preserve">
     <value>Objekte</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Passwort</value>
+  </data>
+  <data name="PleaseLogin" xml:space="preserve">
+    <value>Bitte anmelden</value>
   </data>
   <data name="Point" xml:space="preserve">
     <value>Punkt</value>
@@ -167,6 +185,9 @@
   </data>
   <data name="Rectangle" xml:space="preserve">
     <value>Rechteck</value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>Benutzername</value>
   </data>
   <data name="Width" xml:space="preserve">
     <value>Breite</value>

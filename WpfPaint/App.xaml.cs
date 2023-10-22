@@ -1,10 +1,15 @@
-﻿using System.IO;
+﻿using System;
+using System.ComponentModel;
+using System.DirectoryServices.ActiveDirectory;
+using System.IO;
 using System.Reflection;
 using System.Windows;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using WpfPaint.Authentication;
+using WpfPaint.Authorization;
 using WpfPaint.Model;
 using WpfPaint.ViewModels;
 
@@ -26,10 +31,15 @@ namespace WpfPaint
                 // main window
                 services.AddSingleton<MainWindow>();
 
+                // services
+                services.AddSingleton<IAuthenticationService, AuthenticationService>();
+                services.AddSingleton<IAuthorizationService, AuthorizationService>();
+
                 // model
                 services.AddSingleton<ObjectsStore>();
 
                 // view models
+                services.AddTransient<AuthenticationViewModel>();
                 services.AddTransient<MainViewModel>();
                 services.AddTransient<HeaderViewModel>();
                 services.AddTransient<ObjectsViewModel>();
@@ -52,6 +62,7 @@ namespace WpfPaint
 
         private async void Application_Startup(object sender, StartupEventArgs e)
         {
+            AppDomain.CurrentDomain.SetThreadPrincipal(new CustomPrincipal());
             await _host.StartAsync().ConfigureAwait(true);
             GetService<MainWindow>()?.Show();
         }

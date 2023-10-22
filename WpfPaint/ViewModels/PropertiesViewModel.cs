@@ -1,5 +1,7 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System.ComponentModel.Design;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
+using WpfPaint.Authorization;
 using WpfPaint.Messages;
 
 namespace WpfPaint.ViewModels
@@ -11,6 +13,8 @@ namespace WpfPaint.ViewModels
     /// <seealso cref="CommunityToolkit.Mvvm.Messaging.IRecipient&lt;WpfPaint.Messages.SelectedObjectChangedMessage&gt;" />
     public partial class PropertiesViewModel : ObservableRecipient, IRecipient<SelectedObjectChangedMessage>
     {
+        private readonly IAuthorizationService _authorizationService;
+
         /// <summary>
         /// Gets or sets the current object.
         /// </summary>
@@ -24,8 +28,9 @@ namespace WpfPaint.ViewModels
         /// This constructor will produce an instance that will use the <see cref="CommunityToolkit.Mvvm.Messaging.WeakReferenceMessenger.Default" /> instance
         /// to perform requested operations. It will also be available locally through the <see cref="CommunityToolkit.Mvvm.ComponentModel.ObservableRecipient.Messenger" /> property.
         /// </remarks>
-        public PropertiesViewModel()
+        public PropertiesViewModel(IAuthorizationService authorizationService)
         {
+            _authorizationService = authorizationService;
             IsActive = true;
         }
 
@@ -37,5 +42,13 @@ namespace WpfPaint.ViewModels
         {
             CurrentObject = message?.SelectedObject;
         }
+
+        /// <summary>
+        /// Gets a value indicating whether this instance has edit permission.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if this instance has edit permission; otherwise, <c>false</c>.
+        /// </value>
+        public bool HasEditPermission => _authorizationService.HasPermission(Roles.Designers);
     }
 }
