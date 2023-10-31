@@ -23,8 +23,8 @@ namespace WpfPaint.ViewModels
         /// <summary>
         /// Initializes a new instance of the <see cref="ObjectsViewModel"/> class.
         /// </summary>
-        /// <param name="eventAggregator">The event aggregator.</param>
         /// <param name="objectsCollection">The objects collection.</param>
+        /// <param name="authorizationService">The authorization service.</param>
         public ObjectsViewModel(ObjectsStore objectsCollection, IAuthorizationService authorizationService)
         {
             _objectsCollection = objectsCollection;
@@ -53,25 +53,6 @@ namespace WpfPaint.ViewModels
         ///   <c>true</c> if this the selected object can be removed; otherwise, <c>false</c>.
         /// </value>
         public bool CanRemoveSelectedObject => _authorizationService.HasPermission(Roles.Designers) && SelectedObject != null;
-
-        /// <summary>
-        /// Gets a value indicating whether this instance can add object.
-        /// </summary>
-        /// <value>
-        ///   <c>true</c> if this instance can add object; otherwise, <c>false</c>.
-        /// </value>
-        public bool CanAddObject => _authorizationService.HasPermission(Roles.Designers);
-
-        /// <summary>
-        /// Adds the object of the given type.
-        /// </summary>
-        /// <param name="objectType">Type of the object.</param>
-        [RelayCommand(CanExecute = nameof(CanAddObject))]
-        public void AddObject(ObjectTypes objectType)
-        {
-            _objectsCollection.AddNewObject(objectType);
-            SelectedObject = Objects.Last();
-        }
 
         /// <summary>
         /// Removes the selected object.

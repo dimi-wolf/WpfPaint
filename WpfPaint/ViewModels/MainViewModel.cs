@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Threading;
+using System.Diagnostics;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.DependencyInjection;
@@ -96,7 +96,7 @@ namespace WpfPaint.ViewModels
 
             if (message.IsLoggedIn)
             {
-                if (Thread.CurrentPrincipal is CustomPrincipal principal && principal.Identity.IsAuthenticated)
+                if (CustomPrincipal.Current.Identity.IsAuthenticated)
                 {
                     Objects = _serviceProvider.GetService<ObjectsViewModel>();
                     MainContent = _serviceProvider.GetService<BoardViewModel>();
@@ -105,7 +105,7 @@ namespace WpfPaint.ViewModels
             }
             else
             {
-                AuthenticationViewModel.Logout();
+                CustomPrincipal.SignOut();
                 MainContent = _serviceProvider.GetService<AuthenticationViewModel>();
                 Objects = null;
                 Properties = null;
@@ -119,6 +119,14 @@ namespace WpfPaint.ViewModels
             Header = _serviceProvider.GetService<HeaderViewModel>();
             MainContent = _serviceProvider.GetService<AuthenticationViewModel>();
             Footer = _serviceProvider.GetService<FooterViewModel>();
+
+#if DEBUG
+            if (Debugger.IsAttached)
+            {
+                CustomPrincipal.SignIn(new CustomIdentity("Debug", "debug@company.com", new[] { Roles.Designers, Roles.Operators }));
+                Messenger.Send(AuthenticationMessage.Login("Debug"));
+            }
+#endif
         }
 
         protected override void OnDeactivated()

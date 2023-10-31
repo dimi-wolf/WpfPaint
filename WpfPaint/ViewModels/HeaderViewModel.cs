@@ -108,9 +108,9 @@ namespace WpfPaint.ViewModels
         {
             string result = Resources.Strings.PleaseLogin;
 
-            if (Thread.CurrentPrincipal is CustomPrincipal principal && principal.Identity.IsAuthenticated)
+            if (CustomPrincipal.Current.Identity.IsAuthenticated)
             {
-                result = principal.Identity.Name;
+                result = CustomPrincipal.Current.Identity.Name;
             }
 
             return result;

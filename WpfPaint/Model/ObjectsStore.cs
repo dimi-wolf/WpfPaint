@@ -36,7 +36,7 @@ namespace WpfPaint.Model
         /// Adds the new object.
         /// </summary>
         /// <param name="objectType">Type of the object.</param>
-        public void AddNewObject(ObjectTypes objectType)
+        public object? AddNewObject(ObjectTypes objectType)
         {
             if (_objectTypeLookup.TryGetValue(objectType, out var type))
             {
@@ -45,8 +45,11 @@ namespace WpfPaint.Model
                 if (instance != null)
                 {
                     Objects.Add(instance);
+                    return instance;
                 }
             }
+
+            return null;
         }
     }
 }

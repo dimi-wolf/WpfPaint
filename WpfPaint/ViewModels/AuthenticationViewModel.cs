@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Security;
-using System.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
@@ -82,12 +81,8 @@ namespace WpfPaint.ViewModels
                     //Validate credentials through the authentication service
                     User user = _authenticationService.AuthenticateUser(User.Username, securePassword);
 
-                    //Get the current principal object
-                    CustomPrincipal? customPrincipal = Thread.CurrentPrincipal as CustomPrincipal
-                        ?? throw new InvalidOperationException("The application's default thread principal must be set to a CustomPrincipal object on startup.");
-
                     //Authenticate the user
-                    customPrincipal.Identity = new CustomIdentity(user.Username, user.Email, user.Roles.ToArray());
+                    CustomPrincipal.SignIn(new CustomIdentity(user.Username, user.Email, user.Roles.ToArray()));
 
                     // send the authenticatoin message
                     Messenger.Send(AuthenticationMessage.Login(user.Username));
@@ -100,19 +95,6 @@ namespace WpfPaint.ViewModels
 
             OnPropertyChanged(nameof(HasErrors));
             OnPropertyChanged(nameof(AllErrors));
-        }
-
-        /// <summary>
-        /// Logouts the current user.
-        /// </summary>
-        public static void Logout()
-        {
-            //Get the current principal object
-            CustomPrincipal? customPrincipal = Thread.CurrentPrincipal as CustomPrincipal
-                ?? throw new InvalidOperationException("The application's default thread principal must be set to a CustomPrincipal object on startup.");
-
-            //change Identity to Anonymous
-            customPrincipal.Identity = new AnonymousIdentity();
         }
     }
 }

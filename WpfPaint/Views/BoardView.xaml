@@ -4,13 +4,17 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:converters="clr-namespace:WpfPaint.Converters"
     xmlns:m="clr-namespace:WpfPaint.Model"
     xmlns:p="clr-namespace:WpfPaint.Views.Primitives"
     xmlns:loc="clr-namespace:WpfPaint.Localization"
+    xmlns:gestures="clr-namespace:WpfPaint.Gestures"
     mc:Ignorable="d" 
     d:DesignHeight="450" d:DesignWidth="800">
 
     <UserControl.Resources>
+        <converters:PercentValueConverter x:Key="percentValueConverter"/>
+
         <DataTemplate DataType="{x:Type m:Rectangle}">
             <p:RectangleView/>
         </DataTemplate>
@@ -24,33 +28,141 @@
         </DataTemplate>
     </UserControl.Resources>
 
-    <Grid Background="White">
+    <Grid Background="#323232">
+
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="32"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
         <Label
+            Grid.Row="0"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
             Content="{loc:Localization Canvas}"
             Background="#256DB6"
             Foreground="#f0f0f0"
             BorderThickness="1,0,0,0"
-            BorderBrush="#f0f0f0"
-            Grid.Row="0"/>
+            BorderBrush="#f0f0f0"/>
 
-        <ItemsControl ItemsSource="{Binding Objects}" Focusable="False" Grid.Row="1">
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <Canvas IsItemsHost="True" ClipToBounds="True"/>
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
+        <StackPanel
+            Grid.Row="1"
+            Grid.Column="0">
 
-            <ItemsControl.ItemContainerStyle>
-                <Style TargetType="ContentPresenter">
-                    <Setter Property="Canvas.Left" Value="{Binding Position.X}" />
-                    <Setter Property="Canvas.Top" Value="{Binding Position.Y}" />
-                </Style>
-            </ItemsControl.ItemContainerStyle>
-        </ItemsControl>
+            <ToggleButton
+                IsChecked="{Binding IsMove}"
+                ToolTip="View Tool">
+                <Image Source="{StaticResource hand-back-right}" Height="24" Width="24"/>
+            </ToggleButton>
+
+            <ToggleButton
+                IsChecked="{Binding IsSelect}"
+                ToolTip="Selection Tool">
+                <Image Source="{StaticResource select}" Height="24" Width="24"/>
+            </ToggleButton>
+
+            <ToggleButton
+                IsChecked="{Binding IsEdit}"
+                ToolTip="Edit Objects Tool">
+                <Image Source="{StaticResource pencil}" Height="20" Width="20" Margin="2"/>
+            </ToggleButton>
+
+            <ToggleButton
+                IsChecked="{Binding IsRectangle}"
+                Command="{Binding DrawRectangleCommand}"
+                ToolTip="Add Rectangle">
+                <Image Source="{StaticResource vector-rectangle}" Height="24" Width="24"/>
+            </ToggleButton>
+
+            <ToggleButton
+                IsChecked="{Binding IsCircle}"
+                Command="{Binding DrawCircleCommand}"
+                ToolTip="Add Ellipse">
+                <Image Source="{StaticResource vector-circle}" Height="24" Width="24"/>
+            </ToggleButton>
+
+            <ToggleButton
+                IsChecked="{Binding IsPolyline}"
+                Command="{Binding DrawPolyLineCommand}"
+                ToolTip="Add Polyline">
+                <Image Source="{StaticResource vector-polyline}" Height="24" Width="24"/>
+            </ToggleButton>
+        </StackPanel>
+
+        <ScrollViewer
+            x:Name="_scrollViewer"
+            Grid.Row="1"
+            Grid.Column="1"
+            HorizontalScrollBarVisibility="Auto"
+            VerticalScrollBarVisibility="Auto"
+            MouseEnter="OnMouseEnter"
+            MouseLeave="OnMouseLeave"
+            PreviewMouseDown="OnPreviewMouseDown"
+            PreviewMouseUp="OnPreviewMouseUp"
+            MouseMove="OnMouseMove">
+
+            <ScrollViewer.InputBindings>
+                <MouseBinding Gesture="{x:Static gestures:MouseWheelGesture.CtrlUp}" Command="{Binding ZoomInCommand}"/>
+                <MouseBinding Gesture="{x:Static gestures:MouseWheelGesture.CtrlDown}" Command="{Binding ZoomOutCommand}"/>
+            </ScrollViewer.InputBindings>
+
+            <ItemsControl
+                x:Name="_objectsControl"
+                ItemsSource="{Binding Objects}"
+                Focusable="False"
+                Width="1000"
+                Height="1000"
+                Background="White"
+                PreviewMouseLeftButtonDown="OnObjectsControlPreviewMouseLeftButtonDown"
+                PreviewMouseRightButtonDown="OnObjectsControlPreviewMouseRightButtonDown"
+                MouseMove="OnObjectsControlMouseMove">
+
+                <ItemsControl.LayoutTransform>
+                    <ScaleTransform ScaleX="{Binding Zoom}" ScaleY="{Binding Zoom}"/>
+                </ItemsControl.LayoutTransform>
+
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <Canvas IsItemsHost="True" ClipToBounds="True"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+
+                <ItemsControl.ItemContainerStyle>
+                    <Style TargetType="ContentPresenter">
+                        <Setter Property="Canvas.Left" Value="{Binding Position.X}" />
+                        <Setter Property="Canvas.Top" Value="{Binding Position.Y}" />
+                    </Style>
+                </ItemsControl.ItemContainerStyle>
+            </ItemsControl>
+        </ScrollViewer>
+
+        <Border
+            Grid.Row="2"
+            Grid.Column="1">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Label Content="Zoom" Foreground="White"/>
+                <Grid>
+                    <ComboBox
+                        ItemsSource="{Binding ZoomValues}"
+                        SelectedItem="{Binding Zoom}"
+                        ItemStringFormat="P0"
+                        Width="80"
+                        HorizontalAlignment="Left"
+                        HorizontalContentAlignment="Right"/>
+                    <TextBox
+                        Text="{Binding Zoom, StringFormat=P0, Converter={StaticResource percentValueConverter}}"
+                        Width="60"
+                        HorizontalAlignment="Left"
+                        TextAlignment="Right"
+                        VerticalContentAlignment="Center"/>
+                </Grid>
+            </StackPanel>
+        </Border>
     </Grid>
 </UserControl>

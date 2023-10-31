@@ -1,6 +1,4 @@
-﻿using System.Threading;
-
-namespace WpfPaint.Authorization
+﻿namespace WpfPaint.Authorization
 {
     /// <summary>
     /// The service to authorize a user.
@@ -15,14 +13,6 @@ namespace WpfPaint.Authorization
         /// <returns>
         ///   <c>true</c> if the specified role has permission; otherwise, <c>false</c>.
         /// </returns>
-        public bool HasPermission(string role)
-        {
-            if (Thread.CurrentPrincipal is CustomPrincipal principal)
-            {
-                return principal.Identity.IsAuthenticated && principal.IsInRole(role);
-            }
-
-            return false;
-        }
+        public bool HasPermission(string role) => CustomPrincipal.Current.Identity.IsAuthenticated && CustomPrincipal.Current.IsInRole(role);
     }
 }

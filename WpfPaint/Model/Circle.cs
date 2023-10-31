@@ -13,7 +13,7 @@ namespace WpfPaint.Model
         /// Gets or sets the radius.
         /// </summary>
         [ObservableProperty]
-        private double _radius = 100d;
+        private double _radius;
 
         /// <summary>
         /// Gets or sets the position.
