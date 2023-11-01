@@ -1,7 +1,9 @@
-﻿using System.Globalization;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using System;
+using System.Globalization;
 using System.Resources;
-using System.Threading;
-using CommunityToolkit.Mvvm.ComponentModel;
+using System.Windows;
+using System.Windows.Markup;
 
 namespace WpfPaint.Localization
 {
@@ -13,6 +15,16 @@ namespace WpfPaint.Localization
     {
         private readonly ResourceManager _resourceManager = Resources.Strings.ResourceManager;
         private CultureInfo? _currentCulture;
+
+        /// <summary>
+        /// Initializes the <see cref="LocalizationSource"/> class.
+        /// </summary>
+        static LocalizationSource()
+        {
+            XmlLanguage language = XmlLanguage.GetLanguage(CultureInfo.CurrentUICulture.IetfLanguageTag);
+            FrameworkElement.LanguageProperty.OverrideMetadata(typeof(FrameworkElement), new FrameworkPropertyMetadata(language));
+            FrameworkContentElement.LanguageProperty.OverrideMetadata(typeof(System.Windows.Documents.TextElement), new FrameworkPropertyMetadata(language));
+        }
 
         /// <summary>
         /// Prevents a default instance of the <see cref="LocalizationSource"/> class from being created.
@@ -60,12 +72,13 @@ namespace WpfPaint.Localization
         /// Sets the culture.
         /// </summary>
         /// <param name="culture">The culture.</param>
-        public static void SetCulture(CultureInfo culture)
+        private static void SetCulture(CultureInfo culture)
         {
-            Thread.CurrentThread.CurrentCulture = culture;
-            Thread.CurrentThread.CurrentUICulture = culture;
-            CultureInfo.DefaultThreadCurrentCulture = culture;
+            ArgumentNullException.ThrowIfNull(culture, nameof(culture));
+
+            CultureInfo.CurrentUICulture = culture;
             CultureInfo.DefaultThreadCurrentUICulture = culture;
+            Application.Current.MainWindow.Language = XmlLanguage.GetLanguage(culture.IetfLanguageTag);
         }
     }
 }
