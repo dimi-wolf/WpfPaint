@@ -38,8 +38,6 @@ namespace WpfPaint.Model
             : base(WeakReferenceMessenger.Default)
         {
             Name = Resources.Strings.Rectangle;
-            Width = 100;
-            Height = 100;
         }
     }
 }

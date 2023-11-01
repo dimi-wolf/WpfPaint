@@ -31,8 +31,8 @@ namespace WpfPaint.Model
             : base(WeakReferenceMessenger.Default)
         {
             Name = Resources.Strings.PolyLine;
-            Points.Add(new Position { X = 10, Y = 10 });
-            Points.Add(new Position { X = 90, Y = 90 });
+            Points.Add(new Position());
+            Points.Add(new Position());
         }
 
         /// <summary>
@@ -47,10 +47,11 @@ namespace WpfPaint.Model
         /// Adds a point.
         /// </summary>
         [RelayCommand]
-        public void AddPoint()
+        public void AddPoint(Position? position = null)
         {
             Position last = Points.Last();
-            Points.Add(new Position { X = last.X + 50, Y = last.Y + 50 });
+            position ??= new Position { X = last.X + 50, Y = last.Y + 50 };
+            Points.Add(position);
             UpdatePointsCollection();
         }
     }

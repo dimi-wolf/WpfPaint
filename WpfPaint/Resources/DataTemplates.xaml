@@ -4,6 +4,10 @@
     xmlns:vm="clr-namespace:WpfPaint.ViewModels"
     xmlns:v="clr-namespace:WpfPaint.Views">
 
+    <DataTemplate DataType="{x:Type vm:AuthenticationViewModel}">
+        <v:AuthenticationView/>
+    </DataTemplate>
+
     <DataTemplate DataType="{x:Type vm:MainViewModel}">
         <v:MainView/>
     </DataTemplate>

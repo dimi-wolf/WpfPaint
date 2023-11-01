@@ -38,7 +38,8 @@
 
         <ContentControl
             Content="{Binding CurrentObject}"
-            Focusable="False"/>
+            Focusable="False"
+            IsEnabled="{Binding HasEditPermission}"/>
 
     </StackPanel>
 </UserControl>

@@ -3,6 +3,7 @@ using System.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using WpfPaint.Authorization;
 using WpfPaint.Messages;
 using WpfPaint.Model;
 
@@ -16,16 +17,18 @@ namespace WpfPaint.ViewModels
     public partial class ObjectsViewModel : ObservableRecipient, IRecipient<SetSelectedObjectMessage>
     {
         private readonly ObjectsStore _objectsCollection;
+        private readonly IAuthorizationService _authorizationService;
         private object? _selectedObject;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ObjectsViewModel"/> class.
         /// </summary>
-        /// <param name="eventAggregator">The event aggregator.</param>
         /// <param name="objectsCollection">The objects collection.</param>
-        public ObjectsViewModel(ObjectsStore objectsCollection)
+        /// <param name="authorizationService">The authorization service.</param>
+        public ObjectsViewModel(ObjectsStore objectsCollection, IAuthorizationService authorizationService)
         {
             _objectsCollection = objectsCollection;
+            _authorizationService = authorizationService;
             IsActive = true;
         }
 
@@ -49,18 +52,7 @@ namespace WpfPaint.ViewModels
         /// <value>
         ///   <c>true</c> if this the selected object can be removed; otherwise, <c>false</c>.
         /// </value>
-        public bool CanRemoveSelectedObject => SelectedObject != null;
-
-        /// <summary>
-        /// Adds the object of the given type.
-        /// </summary>
-        /// <param name="objectType">Type of the object.</param>
-        [RelayCommand]
-        public void AddObject(ObjectTypes objectType)
-        {
-            _objectsCollection.AddNewObject(objectType);
-            SelectedObject = Objects.Last();
-        }
+        public bool CanRemoveSelectedObject => _authorizationService.HasPermission(Roles.Designers) && SelectedObject != null;
 
         /// <summary>
         /// Removes the selected object.
@@ -96,7 +88,7 @@ namespace WpfPaint.ViewModels
 
             if (newValue is PrimitiveBase newPrimitive)
             {
-                newPrimitive.ShowControls = true;
+                newPrimitive.ShowControls = _authorizationService.HasPermission(Roles.Designers);
             }
 
             _selectedObject = newValue;
