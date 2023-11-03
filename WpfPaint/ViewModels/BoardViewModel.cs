@@ -269,10 +269,13 @@ namespace WpfPaint.ViewModels
 
         public void CompleteDraft()
         {
-            Messenger.Send(new SetSelectedObjectMessage(DraftObject));
-            DraftObject = null;
-            DraftContext = null;
-            IsEdit = true;
+            if (DraftObject != null)
+            {
+                Messenger.Send(new SetSelectedObjectMessage(DraftObject));
+                DraftObject = null;
+                DraftContext = null;
+                IsEdit = true;
+            }
         }
 
         [RelayCommand]
