@@ -3,6 +3,7 @@
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="../Controls/DropDownButton.xaml"/>
+        <ResourceDictionary Source="../Controls/NumericUpDown.xaml"/>
     </ResourceDictionary.MergedDictionaries>
     
     <Style TargetType="{x:Type TextBox}">

@@ -119,8 +119,16 @@ namespace WpfPaint.Controls
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "<Pending>")]
-        private void SetHexValue(string hexValue)
+        private void SetHexValue(string? hexValue)
         {
+            if (string.IsNullOrWhiteSpace(hexValue))
+            {
+                Red = 0;
+                Green = 0;
+                Blue = 0;
+                return;
+            }
+
             try
             {
                 if (!hexValue.StartsWith("#", StringComparison.Ordinal))
